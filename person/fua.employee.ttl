@@ -1,0 +1,111 @@
+@prefix dct:                                                                                    <http://purl.org/dc/terms/> .
+@prefix foaf:                                                                                   <http://xmlns.com/foaf/0.1/> .
+@prefix org:                                                                                    <http://www.w3.org/ns/org#> .
+@prefix owl:                                                                                    <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:                                                                                    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:                                                                                   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix time:                                                                                   <http://www.w3.org/2006/time#> .
+@prefix xsd:                                                                                    <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix nrd:                                                                                    <https://www.nicos-rd.com/> .
+## this
+@prefix fua:                                                                                    <https://www.nicos-rd.com.org/fua#> .
+
+fua:Employee
+    a                owl:Class ;
+    rdfs:label       "Employee"@en ;
+    dct:description  "Person working for given organization."@en ;
+    rdfs:subClassOf  fua:Person ;
+# rdfs:subClassOf  foaf:Person ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+fua:EmployeeExternal
+    a                owl:Class ;
+    dct:description  "Person working for given organization as an external one."@en ;
+    rdfs:subClassOf  fua:Person ;
+# rdfs:subClassOf  foaf:Person ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+# region properties
+
+fua:person
+    a                owl:ObjectProperty ;
+    rdfs:label       "Person" ;
+    dct:description  "Person of given individual, like <fua:Employee>."@en ;
+    rdfs:domain      fua:Employee, fua:EmployeeExternal ;
+    rdfs:range       fua:Person ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+fua:employee
+    a                  owl:ObjectProperty ;
+    rdfs:label         "Employee" ;
+    rdfs:subPropertyOf org:member ;
+    rdfs:comment       "<fua:employeeOf> is inverse of <fua:employee>." ;
+    rdfs:domain        org:Organization ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+fua:employeeOf
+    rdfs:comment "<fua:employeeOf> defined in scope of <fua:Person>." ;
+    rdfs:comment "<fua:employee> is inverse of <fua:employeeOf>." ;
+    rdfs:domain  fua:Employee ;
+    rdfs:domain  fua:EmployeeExternal ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+
+fua:employeeOf
+    a                  owl:ObjectProperty ;
+    rdfs:label         "Employee of" ;
+    dct:description    "Indicates a person to be an employee of given organization." ;
+#    rdfs:comment       "" ;
+    rdfs:subPropertyOf org:memberOf ;
+    rdfs:comment       "<rdfs:domain> also fetched by <fua:Employee> (if imported)." ;
+    rdfs:domain        fua:Employee ;
+    rdfs:comment       "<rdfs:range>: can also be used by <org:OrganizationalUnit>." ;
+    rdfs:range         org:Organization ;
+    rdfs:isDefinedBy   nrd: ;
+.
+
+fua:employeeNumber
+    a                owl:DatatypeProperty ;
+    rdfs:label       "Employeenumber"@en ;
+    rdfs:label       "Mitarbeiternummer"@de ;
+    dct:description  "TODO."@en ;
+    rdfs:domain      fua:Employee ;
+    rdfs:range       xsd:string ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+fua:role_employee
+# REM:  At this point: an employee (as instance of <fua:Employee>)
+# REM:      or <fua:Person> can be muted by given membership to
+# REM:      this role <fua:role_employee>
+    a               org:Role ;
+    rdfs:label      "Employee role"@en ;
+    dct:description "Role of given person or employee in given organization."@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+fua:role_employee_external
+    a               org:Role ;
+    rdfs:label      "External employee role."@en ;
+    dct:description "Role of given external person or employee in given organization."@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+#<ex:my_role_employee>
+#    a                org:Membership ;
+#    org:member       <ex:langkauJore> ;
+#    org:organization <ex:> ;
+#    org:role         fua:role_employee ;
+#    org:memberDuring [ time:hasBeginning "2020-08-26T11:00:00Z"^^xsd:dateTimeStamp ;
+#                       time:hasEnd       "2021-02-26T11:00:00Z"^^xsd:dateTimeStamp ; ] ;
+#.
+
+# endregion properties
+
+## EOF fua.ttl

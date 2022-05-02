@@ -1,0 +1,284 @@
+@prefix dct:     <http://purl.org/dc/terms/> .
+@prefix foaf:    <http://xmlns.com/foaf/0.1/> .
+@prefix ldp:     <http://www.w3.org/ns/ldp#>.
+@prefix org:     <http://www.w3.org/ns/org#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix time:    <http://www.w3.org/2006/time#>.
+@prefix vann:    <http://purl.org/vocab/vann/> .
+@prefix voaf:    <http://purl.org/vocommons/voaf#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix fua:     <https://www.nicos-rd.com.org/fua#> .
+## this
+@prefix domain:  <https://www.nicos-rd.com.org/fua/domain#> .
+
+domain:
+    a                             owl:Ontology ;
+    owl:versionInfo               "0.0.1" ;
+    dct:creator                   <https://github.com/jlangkau> ;
+    dct:publisher                 <https://www.nicos-rd.com/> ;
+    vann:preferredNamespaceUri    "https://www.nicos-rd.com.org/fua/domain#" ;
+    vann:preferredNamespacePrefix "domain" ;
+    rdfs:isDefinedBy              domain: ;
+.
+
+domain:Domain
+    a                owl:Class ;
+    rdfs:subClassOf  ldp:BasicContainer ;
+#TODO : isAbstract
+    rdfs:label       "Domain"@en ;
+    dct:description  """Domain of given Eco System."""@en ;
+    rdfs:isDefinedBy domain: ;
+.
+
+domain:domain
+    a                owl:ObjectProperty ;
+    rdfs:label       "Domain"@en ;
+#    rdfs:domain      ecm:Ecosystem ;
+## c"1"
+    rdfs:range       domain:Domain ;
+    rdfs:isDefinedBy domain: ;
+.
+
+#region authentication
+domain:UserBasicAuthentication
+    a                owl:Class ;
+    rdfs:subClassOf  domain:User ;
+    rdfs:subClassOf  ldp:Resource ;
+    rdfs:label       "Basic Authentication"@en ;
+    dct:description  """Basic Authentication class of 'domain:Domain'."""@en ;
+## domain:name     ""^^xsd:string ;
+## domain:password ""^^xsd:string ;
+    skos:broader     <domain:User> ;
+    rdfs:isDefinedBy domain: ;
+.
+#endregion authentication
+
+## DEPRECATED: <domain:name> ?!?!?!?
+domain:name
+    a                owl:DatatypeProperty ;
+    rdfs:label       "Name"@en ;
+    rdfs:label       "Name"@de ;
+    dct:description  """Name of given domain:Credential."""@en ;
+    rdfs:domain      [ rdf:type    owl:Class ;
+                       owl:unionOf ( <domain:User> <domain:Credential> ) ] ;
+    rdfs:range       xsd:string ;
+    rdfs:isDefinedBy domain: ;
+.
+
+domain:active
+    a                owl:DatatypeProperty ;
+    rdfs:label       "active"@en ;
+    rdfs:label       "aktiv"@de ;
+    dct:description  """Show, if given User is active in given Domain."""@en ;
+    rdfs:domain      [ rdf:type    owl:Class ;
+                       owl:unionOf ( <domain:User> <domain:Credential> ) ] ;
+    rdfs:range       xsd:boolean ; ## REM: default = false
+    rdfs:isDefinedBy domain: ;
+.
+
+## TODO: secret
+domain:password
+    a                owl:DatatypeProperty ;
+    rdfs:label       "Passwort"@en ;
+    rdfs:label       "Kennwort"@de ;
+    dct:description  """Password of given domain:Credential."""@en ;
+    rdfs:domain      [ rdf:type    owl:Class ;
+                       owl:unionOf ( <domain:User> <domain:Credential> ) ] ;
+    rdfs:range       xsd:string ; ## REM: hashed?!?
+    rdfs:isDefinedBy domain: ;
+.
+
+#region user
+
+domain:User
+    a                owl:Class ;
+    rdfs:subClassOf  ldp:Resource ;
+    rdfs:subClassOf  foaf:Agent ;
+    rdfs:label       "User"@en ;
+    dct:description  """User class of 'domain:Domain'."""@en ;
+    skos:narrower    <domain:UserBasicAuthentication> ;
+    rdfs:isDefinedBy domain: ;
+.
+
+domain:agent
+    a                owl:ObjectProperty ;
+    rdfs:label       "Agent"@en ;
+    dct:description  """Agent of given domain:User."""@en ;
+    rdfs:domain      domain:User ;
+    rdfs:range       foaf:Agent ;
+    rdfs:isDefinedBy domain: ;
+.
+
+domain:Users
+    a                owl:Class ;
+#    rdfs:subClassOf  ldp:BasicContainer ;
+    rdfs:subClassOf  ldp:Resource  ;
+    rdfs:label       "Users"@en ;
+    rdfs:label       "Benutzer"@de ;
+#    rdfs:comment     ""@en ;
+    rdfs:isDefinedBy domain: ;
+.
+
+## TODO: axxounta
+domain:user
+    a                owl:ObjectProperty ;
+    rdfs:label       "user"^^xsd:string ;
+    dct:description  """Reference of all users of of type 'domain:User' of given 'domain:Domain'."""@en ;
+    rdfs:domain      domain:Domain ;
+    rdfs:range       domain:User ;
+    rdfs:isDefinedBy domain: ;
+.
+#endregion user
+
+##region group
+domain:Group
+    a                owl:Class ;
+    rdfs:subClassOf  ldp:Resource ;
+    rdfs:subClassOf  foaf:Group ;
+    rdfs:label       "Group"@en ;
+    rdfs:label       "Gruppe"@de ;
+    dct:description  """Group class of 'domain:Domain'."""@en ;
+    rdfs:isDefinedBy domain: ;
+.
+
+domain:Groups
+    a                owl:Class ;
+    rdfs:subClassOf  ldp:Resource ;
+    rdfs:label       "Groups"@en ;
+    rdfs:label       "Gruppen"@de ;
+    dct:description  """Typically it resides underneath <./domain/> with <./domain/groups/>."""@en ;
+    rdfs:isDefinedBy domain: ;
+.
+
+domain:group
+    a                owl:ObjectProperty ;
+    rdfs:label       "Groups"@en ;
+    dct:description  """Reference of all groups of type 'domain:Group' of given 'domain:Domain'."""@en ;
+    rdfs:domain      domain:Domain ;
+    rdfs:range       domain:Group ;
+    rdfs:isDefinedBy domain: ;
+.
+##endregion group
+
+##region credential
+
+
+##region trust
+domain:Trust
+    a                owl:Class ;
+    rdfs:subClassOf  ldp:Resource ;
+#TODO: isAbstract
+    rdfs:label       "Trust"@en ;
+    rdfs:label       "Vertrauensstellung"@de ;
+    dct:description  """Credential class of credentials."""@en ;
+    skos:narrower    <domain:CredentialBasicAuthentication> ;
+## TODO : rdfs:seeAlso     <> ;
+    rdfs:isDefinedBy domain: ;
+.
+
+domain:trust
+    a                owl:ObjectProperty ;
+    rdfs:label       "trust"^^xsd:string ;
+    dct:description  """Reference of all credentials of type 'domain:Trust' of given 'domain:Domain'."""@en ;
+    rdfs:domain      domain:Domain ;
+    rdfs:range       domain:Trust ;
+    rdfs:isDefinedBy domain: ;
+.
+
+domain:Trusts
+    a                owl:Class ;
+    rdfs:subClassOf  ldp:BasicContainer ;
+    rdfs:label       "Trusts"@en ;
+    rdfs:label       "Vertrauenstellungen"@de ;
+    dct:description  """Typically it resides underneath <./domain/> with <./domain/trusts/>."""@en ;
+    rdfs:isDefinedBy domain: ;
+.
+
+##endregion trust
+
+##region credential
+
+domain:Credentials
+    a                owl:Class ;
+    rdfs:subClassOf  ldp:BasicContainer ;
+    rdfs:label       "Credentials"@en ;
+    rdfs:label       "Berechtigungen"@de ;
+    dct:description  """Typically it resides underneath <./domain/> with <./domain/credentials/>."""@en ;
+    rdfs:isDefinedBy domain: ;
+.
+
+domain:credential
+    a                owl:ObjectProperty ;
+    rdfs:label       "credentials"^^xsd:string ;
+    dct:description  """Reference of all credentials of type 'domain:Credential' of given 'domain:Domain'."""@en ;
+    rdfs:domain      foaf:Agent ;
+    rdfs:range       domain:Credential ;
+    rdfs:isDefinedBy domain: ;
+.
+
+domain:CredentialBasicAuthentication
+    a                owl:Class ;
+    rdfs:subClassOf  domain:Credential ;
+    rdfs:subClassOf  ldp:Resource ;
+    rdfs:label       "Credential 'Basic Authentication'"^^xsd:string ;
+    dct:description  """Credential class for Basic Authentication."""@en ;
+    rdfs:seeAlso     <https://en.wikipedia.org/wiki/Basic_access_authentication> ;
+    rdfs:isDefinedBy domain: ;
+.
+
+domain:Credential
+    a                owl:Class ;
+    rdfs:subClassOf  ldp:Resource ;
+#TODO: isAbstract
+    rdfs:label       "Credential"@en ;
+    rdfs:label       "Berechtigung"@de ;
+    dct:description  """Credential class of credentials."""@en ;
+    skos:narrower    <domain:CredentialBasicAuthentication> ;
+## TODO : rdfs:seeAlso     <> ;
+    rdfs:isDefinedBy domain: ;
+.
+
+domain:valid
+    a                owl:DatatypeProperty ;
+    rdfs:label       "valid"@en ;
+    rdfs:label       "valide"@de ;
+    dct:description  """Time-interval given Credential is working."""@en ;
+    rdfs:domain      [ rdf:type    owl:Class ;
+                       owl:unionOf ( <domain:Credential> ) ] ;
+    rdfs:range       time:Interval ;
+# EXAMPLE
+#    domain:valid     [ a                 time:ProperInterval ;
+#                       time:hasBeginning "2021-07-16T19:20:30Z"^^xsd:dateTimeStamp ;
+##                       time:hasXSDDuration  "P1Y2M"^^xsd:duration ;
+#                       time:hasEnd       "2022-09-16T19:20:30Z"^^xsd:dateTimeStamp ; ] ;
+    rdfs:isDefinedBy domain: ;
+.
+
+domain:remoteDomain
+    a                owl:ObjectProperty ;
+    rdfs:label       "Remote Domain"@en ;
+    rdfs:label       "Entfernte Domäne"@de ;
+    dct:description  """Endpoint to call remote domain to perform a login."""@en ;
+    rdfs:domain      [ rdf:type    owl:Class ;
+                       owl:unionOf ( <domain:Credential> ) ] ;
+    rdfs:range       xsd:string ;
+    rdfs:isDefinedBy domain: ;
+.
+
+domain:token
+    a                owl:DatatypeProperty ;
+    rdfs:label       "token"@en ;
+    dct:description  """Token to use for given domain."""@en ;
+    rdfs:domain      [ rdf:type    owl:Class ;
+                       owl:unionOf ( <domain:Credential> ) ] ;
+    rdfs:range       xsd:string ;
+    rdfs:isDefinedBy domain: ;
+.
+
+##endregion credential
+
+## EOF domain

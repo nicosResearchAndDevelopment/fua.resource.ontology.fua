@@ -1,0 +1,164 @@
+@prefix dct:                                                                                    <http://purl.org/dc/terms/> .
+@prefix foaf:                                                                                   <http://xmlns.com/foaf/0.1/> .
+@prefix odrl:                                                                                   <http://www.w3.org/ns/odrl/2/> .
+@prefix org:                                                                                    <http://www.w3.org/ns/org#> .
+@prefix owl:                                                                                    <http://www.w3.org/2002/07/owl#> .
+@prefix qudt:                                                                                   <http://qudt.org/schema/qudt/> .
+@prefix rdf:                                                                                    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:                                                                                   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:                                                                                     <http://www.w3.org/ns/shacl#> .
+@prefix skos:                                                                                   <http://www.w3.org/2004/02/skos/core#> .
+@prefix time:                                                                                   <http://www.w3.org/2006/time#>.
+@prefix unit:                                                                                   <http://qudt.org/vocab/unit/> .
+@prefix xsd:                                                                                    <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix nrd:                                                                                    <https://www.nicos-rd.com/> .
+
+@prefix tracl:                                                                                  <https://www.nicos-rd.com/fua/tracl#> .
+
+@prefix data-space:                                                                             <https://www.nicos-rd.com/data-space/> .
+@prefix domain-user:                                                                            <https://www.nicos-rd.com/data-space/ramp/domain-user#>.
+@prefix hr-employee:                                                                            <https://www.nicos-rd.com/data-space/ramp/hr-employee#>.
+
+@prefix motic:                                                                                  <https://www.nicos-rd.com/fua/motic#> .
+
+data-space:motic
+    a          motic:Motic ;
+    ##region ramp
+    motic:ramp <https://www.nicos-rd.com/data-space/ramp/hr-employee> ;
+    motic:ramp <https://www.nicos-rd.com/data-space/ramp/domain-user> ;
+    ##endregion ramp
+##region dataVerse
+#    tracl:dataVerse <> ;
+##endregion dataVerse
+.
+
+<https://www.nicos-rd.com/data-space/ramp/hr-employee>
+    a           motic:Ramp ;
+    motic:entry hr-employee:42-00snyder ;
+    motic:entry hr-employee:42-007 ;
+.
+
+hr-employee:42-00snyder
+    a                rdfs:Resource ;
+    foaf:firstName   "Jörg" ;
+    foaf:lastName    "Langkau" ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+hr-employee:42-007
+    a                rdfs:Resource ;
+    foaf:firstName   "Simon" ;
+    foaf:lastName    "Petrac" ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+<https://www.nicos-rd.com/data-space/ramp/domain-user>
+    a           motic:Ramp ;
+    motic:entry domain-user:jlangkau ;
+    motic:entry domain-user:spetrac ;
+.
+
+domain-user:jlangkau
+    a              foaf:Person ;
+    foaf:firstName "Jörg"^^xsd:string ;
+    foaf:lastName  "Langkau"^^xsd:string ;
+.
+
+domain-user:spetrac
+    a              foaf:Person ;
+    foaf:firstName "Simon"^^xsd:string ;
+    foaf:lastName  "Petrac"^^xsd:string ;
+.
+
+#current:
+#    a                   weather:Weather ;
+#    rdfs:comment        """This will be also a Function on PEP."""@en ;
+#    weather:timestamp   "2022-02-22T13:00:00Z"^^xsd:dateTimeStamp ;
+#    weather:location    [ a                geom:Point ;
+#                          geom:coordinates "[ 1.0, 1.0 ]"^^xsd:string ; ] ;
+#    weather:temperature [ a                 weather:Temperature ;
+#                          weather:timestamp "2022-02-22T12:10:13Z"^^xsd:dateTimeStamp ;
+#                          weather:unit      unit:DEG_C ;
+##                          odrl:unit         unit:DEG_C ;
+#                          weather:value     "20"^^xsd:decimal ; ] ;
+#    rdfs:isDefinedBy    nrd: ;
+#.
+
+<https://www.nicos-rd.com/motic/da-hr-employee/>
+    a                motic:DataAgent ;
+    dct:description  """employees, coming from given HR."""@en ;
+    odrl:target      [ a               odrl:AssetCollection ;
+                       odrl:source     user:jlangkau ;
+                       odrl:source     user:spetrac ;
+                       odrl:refinement [ a       odrl:LogicalConstraint ;
+                                         odrl:or ( [ a        odrl:LogicalConstraint ;
+                                                     odrl:and (
+                                                                  ##region temperature
+                                                                  [ a                 odrl:Constraint ;
+                                                                    odrl:leftOperand  weather:temperature ;
+                                                                    odrl:operator     odrl:gt ;
+                                                                    odrl:rightOperand "18"^^xsd:decimal ;
+#                                                                                                        "1"^^xsd:decimal ;
+                                                                    odrl:unit         unit:DEG_C ; ]
+                                                                  [ a                 odrl:Constraint ;
+                                                                    odrl:leftOperand  weather:temperature ;
+                                                                    odrl:operator     odrl:lt ;
+                                                                    odrl:rightOperand "30"^^xsd:decimal ;
+#                                                                                                        "3"^^xsd:decimal ;
+                                                                    odrl:unit         unit:DEG_C ; ]
+                                                                  ##endregion temperature
+                                                              ) ; ##and
+                                                   ] ) ; ## or
+                                       ] ## odrl:refinement
+                     ] ; ## odrl:target
+    tracl:import     [ a           tracl:Import ; ## Rule
+                       odrl:constraint
+                           ##region temporal
+                                   [ a                 odrl:Constraint ;
+                                     odrl:leftOperand  time:now ;
+                           ## REM : hopefully fits to easter
+#                                                                                          odrl:leftOperand "2022-04-16T12:10:13Z"^^xsd:dateTimeStamp ;
+                                     odrl:operator     time:in ;
+#                                             odrl:operator     time:before  ;
+#                                             odrl:operator     time:after  ;
+#                                             odrl:rightOperand [ a                   time:ProperInterval ;
+#                                                                 dct:description     """First Quarter of 2022"""@en ;
+#                                                                 time:hasBeginning   "2021-12-31T00:00:00Z"^^xsd:dateTimeStamp ;
+##                                                                                                              time:hasBeginning [
+##                                                                                                                                rdf:type :Instant ;
+##                                                                                                                                :inXSDDate "2006-01-01"^^xsd:date ;
+##                                                                                                                            ] ;
+#                                                                 time:hasXSDDuration "P3M"^^xsd:duration ; ]
+#                                             odrl:rightOperand "--03Z"^^xsd:gMonth ; ## DONE
+#                                             odrl:rightOperand "2022-03Z"^^xsd:gYearMonth ; ## DONE
+#                                             odrl:rightOperand "1"^^time:quarterOfYear ; ## DONE
+#                                             odrl:rightOperand "10"^^time:weekOfYear ; ## DONE
+#                                             odrl:rightOperand "1"^^time:halfOfYear ; ## DONE
+#                                             odrl:rightOperand "2022Z"^^xsd:gYear ; ## DONE
+                                     odrl:rightOperand "2022Z"^^time:Year ; ## DONE
+## TODO : timezone-offset einbauen
+#                                             odrl:rightOperand "2022-10"^^time:YearWeekISO ; ## TODO : offset
+#        "2022-10"^^time:YearWeekUS ; ## TODO : offset
+## TODO : timezone-offset einbauen
+#                                             odrl:rightOperand "2022-03"^^time:YearMonth ; ## TODO : offset
+## TODO : timezone-offset einbauen
+#                                             odrl:rightOperand "2022-1"^^time:YearQuarter ; ## TODO : offset
+## TODO : timezone-offset einbauen
+#                                             odrl:rightOperand "2022-1"^^time:YearHalf ; ## TODO : offset
+## TODO : timezone-offset einbauen
+#                                   odrl:rightOperand "current"^^time:easter ; ## TODO : offset
+#                                             odrl:rightOperand "2022"^^time:easter ; ## TODO : offset
+                           ## TODO : timezone-offset einbauen
+#                                             ## TODO >>>>>>>>>>>>>>>> TEST odrl:rightOperand "21"^^time:Century ; ## TODO : offset
+                       ] ##endregion temporal
+            ; ## odrl:constraint
+
+#                               odrl:action odrl:use, weather:NICE ;
+                       odrl:action odrl:use ;
+#                               weather:status weather:NICE ;
+                     ] ;
+    rdfs:isDefinedBy nrd: ;
+. ## <https://www.nicos-rd.com/weather/earth/europe/germany/northrhinewestphalia/muenster/weather/is#nice>
+
+## EOF

@@ -1,0 +1,256 @@
+@prefix dct:                                                                        <http://purl.org/dc/terms/> .
+@prefix foaf:                                                                       <http://xmlns.com/foaf/0.1/> .
+@prefix odrl:                                                                       <http://www.w3.org/ns/odrl/2/> .
+@prefix org:                                                                        <http://www.w3.org/ns/org#> .
+@prefix owl:                                                                        <http://www.w3.org/2002/07/owl#> .
+@prefix qudt:                                                                       <http://qudt.org/schema/qudt/> .
+@prefix rdf:                                                                        <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:                                                                       <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:                                                                         <http://www.w3.org/ns/shacl#> .
+@prefix skos:                                                                       <http://www.w3.org/2004/02/skos/core#> .
+@prefix time:                                                                       <http://www.w3.org/2006/time#>.
+@prefix unit:                                                                       <http://qudt.org/vocab/unit/> .
+@prefix xsd:                                                                        <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix nrd:                                                                        <https://www.nicos-rd.com/weather/> .
+
+@prefix fua:                                                                        <https://www.nicos-rd.com.org/fua#> .
+@prefix geom:                                                                       <https://www.nicos-rd.com/fua/geom#> .
+@prefix weather:                                                                    <https://www.nicos-rd.com/fua/weather#> .
+
+
+weather:Weather
+    a                owl:Class ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+weather:Value
+    a                owl:Class ;
+    rdfs:subClassOf  fua:Property ; ## TODO :
+    rdfs:isDefinedBy nrd: ;
+.
+
+weather:value
+    a                owl:ObjectProperty ;
+    rdfs:domain      [ rdf:type    owl:Class ;
+                       owl:unionOf ( weather:Value ) ; ] ;
+    rdfs:range       rdf:Property ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+weather:timestamp
+    a                owl:ObjectProperty ;
+    rdfs:domain      [ rdf:type    owl:Class ;
+                       owl:unionOf ( weather:Weather weather:Value ) ; ] ;
+    rdfs:range       xsd:dateTimeStamp ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+weather:location
+    a                owl:ObjectProperty ;
+    rdfs:domain      [ rdf:type    owl:Class ;
+                       owl:unionOf ( weather:Weather ) ; ] ;
+    rdfs:range       geom:Point ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+weather:unit
+    a                owl:ObjectProperty ;
+    rdfs:domain      [ rdf:type    owl:Class ;
+                       owl:unionOf ( weather:Value ) ; ] ;
+    rdfs:range       qudt:Unit ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+weather:Temperature
+    a                owl:Class ;
+    rdfs:subClassOf  weather:Value ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+weather:temperature
+    a                owl:ObjectProperty ;
+    rdfs:domain      [ rdf:type    owl:Class ;
+                       owl:unionOf ( weather:Weather ) ; ] ;
+    rdfs:range       weather:Temperature ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+weather:Rating
+    a               owl:Class ;
+    rdfs:subClassOf odrl:Action ;
+    rdfs:subClassOf odrl:RightOperand ;
+.
+
+weather:RatingShape
+    a                    sh:NodeShape ;
+    sh:targetClass       weather:Rating ;
+    rdfs:comment         """Applies to all Raters."""@en ;
+    sh:property          [ sh:path         weather:numericPosition ;
+                           sh:maxCount     1 ;
+                           sh:datatype     xsd:decimal ;
+                           sh:minInclusive 0 ;
+                           sh:maxInclusive 100 ; ] ;
+    sh:closed            true ;
+    sh:ignoredProperties ( rdf:type )
+.
+
+weather:numericPosition
+    a                owl:ObjectProperty ;
+    rdfs:domain      [ rdf:type    owl:Class ;
+                       owl:unionOf ( weather:Rating ) ; ] ;
+    rdfs:range       xsd:decimal ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+weather:MIN
+    a                       weather:Rating ;
+    skos:notation           "most_worse" ;
+    rdfs:label              "most worst"@en ;
+    rdfs:label              "schlechtest möglich"@de ;
+    weather:numericPosition "0"^^xsd:decimal ;
+    skos:broader            weather:ABYSMAL ;
+.
+
+weather:ABYSMAL
+    a                       weather:Rating ;
+    skos:notation           "abysmal" ;
+    rdfs:label              "abysmal"@en ;
+    rdfs:label              "unterirdisch"@de ;
+    weather:numericPosition "5"^^xsd:decimal ;
+    skos:narrower           weather:MIN ;
+    skos:broader            weather:CATASTROPHIC ;
+.
+
+weather:CATASTROPHIC
+    a                       weather:Rating ;
+    skos:notation           "catastrophic" ;
+    rdfs:label              "catastrophic"@en ;
+    rdfs:label              "katastrophal"@de ;
+    weather:numericPosition "10"^^xsd:decimal ;
+    skos:narrower           weather:ABYSMAL ;
+    skos:broader            weather:REALLYBAD ;
+.
+
+weather:REALLYBAD
+    a                       weather:Rating ;
+    skos:notation           "really_bad" ;
+    rdfs:label              "really bad"@en ;
+    rdfs:label              "wirklich schlecht"@de ;
+    weather:numericPosition "20"^^xsd:decimal ;
+    skos:narrower           weather:REALLYBAD ;
+    skos:broader            weather:BAD ;
+.
+
+weather:BAD
+    a                       weather:Rating ;
+    skos:notation           "bad" ;
+    rdfs:label              "bad"@en ;
+    rdfs:label              "schlecht"@de ;
+    weather:numericPosition "30"^^xsd:decimal ;
+    skos:narrower           weather:REALLYBAD ;
+    skos:broader            weather:UGLY ;
+.
+
+weather:UGLY
+    a                       weather:Rating ;
+    skos:notation           "ugly" ;
+    rdfs:label              "ugly"@en ;
+    rdfs:label              "übel"@de ;
+    weather:numericPosition "40"^^xsd:decimal ;
+    skos:narrower           weather:BAD ;
+.
+
+weather:NORMAL
+    a                       weather:Rating ;
+    skos:notation           "normal" ;
+    rdfs:label              "normal"@en ;
+    rdfs:label              "normal"@de ;
+    skos:narrower           weather:GOOD ;
+    weather:numericPosition "50"^^xsd:decimal ;
+.
+
+weather:GOOD
+    a                       weather:Rating ;
+    skos:notation           "good" ;
+    rdfs:label              "good"@en ;
+    rdfs:label              "gut"@de ;
+    weather:numericPosition "60"^^xsd:decimal ;
+    skos:broader            weather:NORMAL ;
+    skos:narrower           weather:NICE ;
+.
+
+weather:NICE
+    a                       weather:Rating ;
+    skos:notation           "nice" ;
+    rdfs:label              "nice"@en ;
+    rdfs:label              "schön"@de ;
+    weather:numericPosition "70"^^xsd:decimal ;
+    skos:broader            weather:GOOD ;
+    skos:narrower           weather:EXCELLENT ;
+.
+
+weather:EXCELLENT
+    a                       weather:Rating ;
+    skos:notation           "excellent" ;
+    rdfs:label              "excellent"@en ;
+    rdfs:label              "hervorragend"@de ;
+    weather:numericPosition "80"^^xsd:decimal ;
+    skos:broader            weather:NICE ;
+    skos:narrower           weather:FANTASTIC ;
+.
+
+weather:FANTASTIC
+    a                       weather:Rating ;
+    skos:notation           "fantastic" ;
+    rdfs:label              "fantastic"@en ;
+    rdfs:label              "fantastisch"@de ;
+    weather:numericPosition "90"^^xsd:decimal ;
+    skos:broader            weather:EXCELLENT ;
+    skos:narrower           weather:MAX ;
+.
+
+weather:MAX
+    a                       weather:Rating ;
+    skos:notation           "best_possible" ;
+    rdfs:label              "best possible"@en ;
+    rdfs:label              "bestmöglich"@de ;
+    weather:numericPosition "100"^^xsd:decimal ;
+    skos:broader            weather:FANTASTIC ;
+.
+
+##region ODRL
+##region ODRL profile
+weather:Policy
+    a                rdfs:Class, owl:Class, skos:Concept ;
+    rdfs:subClassOf  odrl:Policy ;
+#    owl:disjointWith :Offer, :Privacy, :Request, :Ticket, :Assertion ;
+    rdfs:label       "Agreement"@en ;
+    skos:definition  """A Policy that grants the assignee a Quality (by characterisation) of Weather over given Weather from an assigner."""@en ;
+    skos:note        """An Agreement Policy MUST contain at least one Chracterisation."""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+weather:Characterisation
+    a                rdfs:Class, owl:Class, skos:Concept ;
+    rdfs:subClassOf  odrl:Rule ;
+#    owl:disjointWith :Prohibition, :Duty ;
+    rdfs:label       "Characterisation"@en ;
+    ## TODO : as an odrl:Action OR by some weather-specialities?????????????????????????????????
+    skos:definition  """The ability to express the character of given weather."""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+weather:characterisation
+    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:isDefinedBy odrl: ;
+    rdfs:label       "Has Characterisation"@en ;
+    skos:definition  """Relates an individual Characterisation to a Weather Policy."""@en ;
+    rdfs:domain      weather:Policy ;
+    rdfs:range       weather:Characterisation ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+##endregion ODRL profile
+##endregion ODRL
+##EOF

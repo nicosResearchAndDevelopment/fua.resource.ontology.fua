@@ -1,0 +1,248 @@
+@prefix dct:                                                                        <http://purl.org/dc/terms/> .
+@prefix foaf:                                                                       <http://xmlns.com/foaf/0.1/> .
+@prefix odrl:                                                                       <http://www.w3.org/ns/odrl/2/> .
+@prefix org:                                                                        <http://www.w3.org/ns/org#> .
+@prefix owl:                                                                        <http://www.w3.org/2002/07/owl#> .
+@prefix qudt:                                                                       <http://qudt.org/schema/qudt/> .
+@prefix rdf:                                                                        <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:                                                                       <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:                                                                         <http://www.w3.org/ns/shacl#> .
+@prefix skos:                                                                       <http://www.w3.org/2004/02/skos/core#> .
+@prefix time:                                                                       <http://www.w3.org/2006/time#>.
+@prefix unit:                                                                       <http://qudt.org/vocab/unit/> .
+@prefix vann:                                                                       <http://purl.org/vocab/vann/> .
+@prefix voaf:                                                                       <http://purl.org/vocommons/voaf#> .
+@prefix void:                                                                       <http://rdfs.org/ns/void#> .
+@prefix xsd:                                                                        <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix nrd:                                                                        <https://www.nicos-rd.com/> .
+
+@prefix motic:                                                                      <https://www.nicos-rd.com/fua/motic#> .
+
+motic:
+    a                             voaf:Vocabulary ;
+    a                             owl:Ontology ;
+    skos:prefLabel                "tracl"^^xsd:string ;
+    rdfs:label                    "Model for Management Of Things, Identities and Credentails"@en ;
+    dct:title                     "Model for Management Of Things, Identities and Credentails"@en ;
+# <TODO> cc:license                    <http://www.apache.org/licenses/LICENSE-2.0> ;
+    dct:creator                   <https://github.com/jlangkau> ;
+    dct:creator                   <https://jlangkau.solidweb.org/> ;
+    dct:publisher                 <http://www.nicos-rd.com/> ;
+    dct:created                   "2019-02-12"^^xsd:date ;
+    dct:modified                  "2022-04-22"^^xsd:date ; ## REM : replaced by assembly
+    owl:versionInfo               "0.4.0" ;
+#    owl:versionIRI                :v0-0-1 ;
+    vann:preferredNamespaceUri    "https://www.nicos-rd.com/fua/motic#" ;
+    vann:preferredNamespacePrefix "motic:" ;
+## <TODO> rdfs:seeAlso                  <> ;
+    void:vocabulary               vann:, void:, voaf:, dct: ;
+    rdfs:isDefinedBy              nrd: ;
+. # :
+
+motic:Motic
+    a                owl:Class ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+motic:DataVerseClass
+    ## REM : abstract
+    a                owl:Class ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+motic:dataVerse
+    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:label       "DataVerse"@en ;
+    skos:definition  """"""@en ;
+    rdfs:domain      motic:Motic ;
+    rdfs:range       motic:DataVerseClass ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+motic:DataSource
+    ## REM : abstract
+    a                owl:Class ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+motic:DataAgent
+    a                owl:Class ;
+    rdfs:subClassOf  odrl:Policy ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+motic:dataSource
+    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:label       "DataSource"@en ;
+    skos:definition  """"""@en ;
+    rdfs:domain      motic:DataAgent ;
+    rdfs:range       motic:DataSource ; ## TODO : 1..1
+    rdfs:isDefinedBy nrd: ;
+.
+
+motic:dataAgent
+    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:label       "DataAgent"@en ;
+    skos:definition  """"""@en ;
+    rdfs:domain      motic:Motic ;
+    rdfs:range       motic:DataAgent ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+motic:ramp
+    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:label       "Ramp"@en ;
+    skos:definition  """"""@en ;
+    rdfs:domain      motic:Motic ;
+    rdfs:range       motic:Ramp ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+motic:Ramp
+    ## REM : abstract
+    a                owl:Class ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+motic:entry
+    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:label       "Entry"@en ;
+    skos:definition  """"""@en ;
+    rdfs:domain      motic:Ramp ;
+    ## TODO : 0..n
+    rdfs:range       motic:Entry ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+motic:EntrySchema
+    a                owl:Class ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+motic:entrySchema
+    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:label       "Entry Schema"@en ;
+    skos:definition  """"""@en ;
+    rdfs:domain      motic:Entry ;
+    ## TODO : 1..1
+    rdfs:range       motic:EntrySchema ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+motic:Entry
+    a                owl:Class ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+motic:property
+    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:label       "Property"@en ;
+    skos:definition  """"""@en ;
+    rdfs:domain      motic:Entry ;
+    ## TODO : 0..n
+    rdfs:range       motic:Property ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+motic:PropertySchema
+    a                owl:Class ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+motic:mandatory
+    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:label       "Mandatory"@en ;
+    skos:definition  """"""@en ;
+    rdfs:domain      ( motic:PropertySchema ) ;
+    ## TODO : 0..1, '0' === false
+    rdfs:range       xsd:boolean ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+motic:name
+    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:label       "Name"@en ;
+    skos:definition  """"""@en ;
+    rdfs:domain      ( motic:PropertySchema ) ;
+    ## TODO : 1..1
+    rdfs:range       xsd:string ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+motic:valueType
+    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:label       "Value Type"@en ;
+    skos:definition  """"""@en ;
+    rdfs:domain      ( motic:PropertySchema ) ;
+    ## TODO : 1..1
+    rdfs:range       rdfs:Datatype ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+motic:propertySchema
+    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:label       "Property Schema"@en ;
+    skos:definition  """"""@en ;
+    rdfs:domain      ( motic:Property ) ;
+    ## TODO : 1..1
+    rdfs:range       motic:PropertySchema ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+motic:Property
+    ## REM : abstract
+    a                owl:Class ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+## TODO: prov:generatedAtTime
+
+motic:timestamp
+    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:label       "Timestamp"@en ;
+    skos:definition  """"""@en ;
+    rdfs:domain      ( motic:Entry motic:Property ) ;
+    ## TODO : 1..1
+    rdfs:range       xsd:dateTimeStamp ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+motic:Rule
+    ## REM : abstract
+    a                owl:Class ;
+    rdfs:subClassOf  odrl:Rule ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+motic:Import
+    a                owl:Class ;
+    rdfs:subClassOf  motic:Rule ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+motic:Export
+    a                owl:Class ;
+    rdfs:subClassOf  motic:Rule ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+motic:import
+    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:label       "Import"@en ;
+    skos:definition  """"""@en ;
+    rdfs:domain      motic:DataAgent ;
+    rdfs:range       motic:Import ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+motic:export
+    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:label       "Export"@en ;
+    skos:definition  """"""@en ;
+    rdfs:domain      motic:DataAgent ;
+    rdfs:range       motic:Export ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+## EOF

@@ -1,0 +1,480 @@
+@prefix dct:                                                                        <http://purl.org/dc/terms/> .
+@prefix fno:                                                                        <https://w3id.org/function/ontology#> .
+@prefix foaf:                                                                       <http://xmlns.com/foaf/0.1/> .
+@prefix odrl:                                                                       <http://www.w3.org/ns/odrl/2/> .
+@prefix org:                                                                        <http://www.w3.org/ns/org#> .
+@prefix owl:                                                                        <http://www.w3.org/2002/07/owl#> .
+@prefix qudt:                                                                       <http://qudt.org/schema/qudt/> .
+@prefix rdf:                                                                        <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:                                                                       <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:                                                                         <http://www.w3.org/ns/shacl#> .
+@prefix skos:                                                                       <http://www.w3.org/2004/02/skos/core#> .
+@prefix time:                                                                       <http://www.w3.org/2006/time#>.
+@prefix unit:                                                                       <http://qudt.org/vocab/unit/> .
+@prefix vann:                                                                       <http://purl.org/vocab/vann/> .
+@prefix voaf:                                                                       <http://purl.org/vocommons/voaf#> .
+@prefix void:                                                                       <http://rdfs.org/ns/void#> .
+@prefix xsd:                                                                        <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix nrd:                                                                        <https://www.nicos-rd.com/> .
+
+@prefix tracl:                                                                      <https://www.nicos-rd.com/fua/tracl#> .
+
+tracl:
+    a                             voaf:Vocabulary ;
+    a                             owl:Ontology ;
+    skos:prefLabel                "tracl"^^xsd:string ;
+    rdfs:label                    "Model for Transformation, Translation, Transmutation and Conversion Language"@en ;
+    dct:title                     "Model for Transformation, Translation, Transmutation and Conversion Language"@en ;
+# <TODO> cc:license                    <http://www.apache.org/licenses/LICENSE-2.0> ;
+    dct:creator                   <https://github.com/jlangkau> ;
+    dct:creator                   <https://jlangkau.solidweb.org/> ;
+    dct:publisher                 <http://www.nicos-rd.com/> ;
+    dct:created                   "2022-04-22"^^xsd:date ;
+    dct:modified                  "2022-04-22"^^xsd:date ; ## REM : replaced by assembly
+    owl:versionInfo               "0.2.1" ;
+#    owl:versionIRI                :v0-0-1 ;
+    vann:preferredNamespaceUri    "https://www.nicos-rd.com/fua/tracl#" ;
+    vann:preferredNamespacePrefix "tracl:" ;
+## <TODO> rdfs:seeAlso                  <> ;
+    void:vocabulary               vann:, void:, voaf:, dct: ;
+    rdfs:isDefinedBy              nrd: ;
+. # :
+
+
+tracl:mandatory
+    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:label       "Mandatory"@en ;
+    skos:definition  """"""@en ;
+    rdfs:domain      ( tracl:PropertySchema ) ;
+    ## TODO : 0..1, '0' === false
+    rdfs:range       xsd:boolean ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:name
+    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:label       "Name"@en ;
+    skos:definition  """"""@en ;
+    rdfs:domain      ( tracl:PropertySchema ) ;
+    ## TODO : 1..1
+    rdfs:range       xsd:string ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:Reduction
+    a                owl:Class ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:reduction
+    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:label       "Reduction"@en ;
+    rdfs:domain      tracl:Policy ;
+    ## TODO : 0..1
+    rdfs:range       tracl:Reduction ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+
+
+tracl:Property
+    a                owl:Class ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:property
+    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:label       "Property"@en ;
+    skos:definition  """"""@en ;
+    rdfs:domain      tracl:Reduction ;
+    ## TODO : 0..n
+    ## REM : '0' means: no reduction pass-through...
+    rdfs:range       tracl:Property ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:Pipe
+    a                owl:Class ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:pipe
+    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:label       "Pipe"@en ;
+    skos:definition  """"""@en ;
+    rdfs:domain      tracl:Conversion ;
+    ## TODO : 0..n
+    ## REM : '0' means: no reduction pass-through...
+    rdfs:range       tracl:Pipe ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+
+
+tracl:Flow
+    a                owl:Class ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:flow
+    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+    ## TODO : ordered list?!?
+    rdfs:label       "Flow"@en ;
+    skos:definition  """"""@en ;
+    rdfs:domain      tracl:Pipe ;
+    ## TODO : 0..n
+    rdfs:range       tracl:Flow ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:Function
+    a                owl:Class ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:function
+    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+    ## TODO : ordered list?!?
+    rdfs:label       "Function"@en ;
+    skos:definition  """"""@en ;
+    rdfs:domain      tracl:Flow ;
+    rdfs:range       tracl:Function ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:Parameter
+    a                owl:Class ; ## REM : abstract'
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:parameter
+    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+    ## TODO : ordered list?!?
+    rdfs:label       "Parameter"@en ;
+    skos:definition  """"""@en ;
+    rdfs:domain      tracl:Flow ;
+    rdfs:range       tracl:Parameter ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+## REM : somtething lika sh:path
+tracl:path
+    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:label       "path"@en ;
+    skos:definition  """Subjects (source, from) predicate."""@en ;
+    rdfs:domain      ( tracl:Property tracl:Pipe ) ;
+    ## TODO : 1..1
+    rdfs:range       rdfs:Resource ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:target
+    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:label       "Target"@en ;
+    skos:definition  """Results (target, to) predicate."""@en ;
+    rdfs:domain      tracl:Pipe ;
+    ## TODO : 1..1
+    rdfs:range       rdfs:Resource ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+#tracl:trans
+#    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+#    rdfs:label       "trans"@en ;
+#    skos:definition  """"""@en ;
+#    rdfs:domain      tracl:Property ;
+#    ## TODO : 0..n
+#    ## REM : '0' = direct-method is used
+#    ## REM : ordered list (@list)
+#    rdfs:range       tracl:Method ;
+#    rdfs:isDefinedBy nrd: ;
+#.
+
+tracl:Policy
+    ## REM : abstract
+    a                owl:Class ;
+    rdfs:subClassOf  odrl:Policy ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:Trans
+    a                owl:Class ;
+    rdfs:subClassOf  tracl:Policy ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:Rule
+    ## REM : abstract
+    a                owl:Class ;
+    rdfs:subClassOf  odrl:Rule ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:Transition
+    a                owl:Class ;
+    rdfs:subClassOf  tracl:Rule ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:transition
+    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:label       "Transition"@en ;
+    skos:definition  """"""@en ;
+    rdfs:domain      tracl:Trans ;
+    rdfs:range       tracl:Transition ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:validation-shacl
+    a                rdf:Property, owl:DatatypeProperty ;
+    rdfs:label       "Validation by SHACL"@en ;
+    skos:definition  """shacl validation of given source (Asset Collection)."""@en ;
+    rdfs:domain      tracl:Trans ;
+    rdfs:range       xsd:boolean ;
+    rdfs:comment     """If NOT present 'false' as default value."""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:validation-method
+    a                rdf:Property, owl:DatatypeProperty ;
+    rdfs:label       "Validation by Function"@en ;
+    skos:definition  """Validation by given function of given source (Asset Collection)."""@en ;
+    rdfs:domain      tracl:Trans ;
+    rdfs:range       tracl:path ;
+    rdfs:comment     """If NOT present no resource (method) is called."""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:source
+    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:label       "Source"@en ;
+    skos:definition  """"""@en ;
+    ## TODO : =?!?!? : rdfs:domain      tracl:Trans ;
+    rdfs:range       rdfs:Resource ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:result
+    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:label       "Result"@en ;
+    skos:definition  """"""@en ;
+    ## TODO : =?!?!? : rdfs:domain      tracl:Trans ;
+    rdfs:range       rdfs:Resource ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+##########################################################
+
+##region individual
+
+tracl:rdfs_Resource_parameter
+    a                fno:Parameter ;
+    fno:name         "Property" ;
+    fno:predicate    tracl:source ;
+    fno:type         rdfs:Resource ;
+    fno:required     "true"^^xsd:boolean ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:output
+    a                fno:Output ;
+    fno:name         "Result Target" ;
+    fno:predicate    tracl:result ;
+    fno:type         rdfs:Resource ;
+    fno:required     "true"^^xsd:boolean ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+##region individual :: trans :: direct
+
+tracl:direct
+    a                tracl:Function ;
+    rdfs:label       "direct"@en ;
+    dct:description  """Direct routing of given property (type and/or value) to trans-result."""@en ;
+
+    ##region fno
+    a                fno:Function ;
+    fno:name         "direct"^^xsd:string ;
+    fno:solves       tracl:direct-problem ;
+    fno:implements   tracl:direct-algorithm ;
+    fno:expects      ( tracl:rdfs_Resource_parameter ) ;
+    fno:returns      tracl:output ;
+    ##endregion fno
+
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:direct-problem
+    a                fno:Problem ;
+    fno:name         """direct-problem"""^^xsd:string ;
+    dct:description  """."""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:direct-algorithm
+    a                fno:Algorithm ;
+    fno:name         """direct-algorithm"""^^xsd:string ;
+    dct:description  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+##endregion individual :: trans :: direct
+
+#region individual :: trans :: encodeBase64
+
+tracl:encodeBase64
+    a                tracl:Function ;
+    rdfs:label       "encodeBase64"@en ;
+    dct:description  """Base 64 encoding."""@en ;
+
+    ##region fno
+    a                fno:Function ;
+    fno:name         "encodeBase64"^^xsd:string ;
+    fno:solves       tracl:encodeBase64-problem ;
+    fno:implements   tracl:encodeBase64-algorithm ;
+    fno:expects      ( tracl:rdfs_Resource_parameter ) ;
+    fno:output       tracl:output ;
+    ##endregion fno
+
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:encodeBase64-problem
+    a                fno:Problem ;
+    fno:name         """encodeBase64-problem"""^^xsd:string ;
+    dct:description  """."""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:encodeBase64-algorithm
+    a                fno:Algorithm ;
+    fno:name         """encodeBase64-algorithm"""^^xsd:string ;
+    dct:description  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+##endregion individual :: trans :: encodeBase64
+
+##region individual :: trans :: hash
+
+tracl:hash
+    a                tracl:Function ;
+    rdfs:label       "hash"@en ;
+    dct:description  """Hash encoding."""@en ;
+
+    ##region fno
+    a                fno:Function ;
+    fno:name         "hash"^^xsd:string ;
+    fno:solves       tracl:hash-problem ;
+    fno:implements   tracl:hash-algorithm ;
+    fno:expects      ( tracl:rdfs_Resource_parameter
+                       tracl:hash-type_parameter ) ;
+    fno:output       tracl:output ;
+    ##endregion fno
+
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:hash-problem
+    a                fno:Problem ;
+    fno:name         """hash-problem"""^^xsd:string ;
+    dct:description  """."""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:hash-algorithm
+    a                fno:Algorithm ;
+    fno:name         """hash-algorithm"""^^xsd:string ;
+    dct:description  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:hash-type_parameter
+    a                fno:Parameter ;
+    fno:name         "Hash Type" ;
+    fno:predicate    tracl:hash-type ;
+    fno:type         tracl:hash_Type ;
+    fno:required     "true"^^xsd:boolean ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:hash-Parameter
+    a                owl:Class ; ## REM : abstract'
+    rdfs:subClassOf  tracl:Parameter ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+
+tracl:hash-type
+    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+    rdfs:label       "hash Type"@en ;
+    skos:definition  """"""@en ;
+    rdfs:domain      tracl:hash-Parameter ;
+    ## TODO : =?!?!? : rdfs:domain      tracl:Trans ;
+    rdfs:range       tracl:hash_Type ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:hash_Type
+    a                owl:Class ;
+    rdfs:isDefinedBy nrd: ;
+.
+##region individual :: trans :: hash type individuals
+
+tracl:hash-sha256
+    a                tracl:hash_Type ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:hash-md5
+    a                tracl:hash_Type ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+## TODO        You can also replace 'sha256' with 'sha1', 'md5', 'sha256', 'sha512'
+
+##endregion individual :: trans :: hash type individuals
+
+##endregion individual :: trans :: hash
+
+#region individual :: trans :: string
+#region individual :: trans :: string :: obfuscate
+
+tracl:obfuscate
+    a                tracl:Function ;
+    rdfs:label       "Obfuscate"@en ;
+    dct:description  """Obfuscating a string."""@en ;
+
+    ##region fno
+    a                fno:Function ;
+    fno:name         "obfuscate"^^xsd:string ;
+    fno:solves       tracl:obfuscate-problem ;
+    fno:implements   tracl:obfuscate-algorithm ;
+    fno:expects      ( tracl:rdfs_Resource_parameter ) ;
+    fno:output       tracl:output ;
+    ##endregion fno
+
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:obfuscate-problem
+    a                fno:Problem ;
+    fno:name         """obfuscate-problem"""^^xsd:string ;
+    dct:description  """."""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+tracl:obfuscate-algorithm
+    a                fno:Algorithm ;
+    fno:name         """obfuscate-algorithm"""^^xsd:string ;
+    dct:description  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+##endregion individual :: trans :: string :: obfuscate
+##endregion individual :: trans :: string
+
+##endregion individual
+
+## EOF

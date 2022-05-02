@@ -1,0 +1,194 @@
+@prefix dct:                                                                                    <http://purl.org/dc/terms/> .
+@prefix foaf:                                                                                   <http://xmlns.com/foaf/0.1/> .
+@prefix odrl:                                                                                   <http://www.w3.org/ns/odrl/2/> .
+@prefix org:                                                                                    <http://www.w3.org/ns/org#> .
+@prefix owl:                                                                                    <http://www.w3.org/2002/07/owl#> .
+@prefix qudt:                                                                                   <http://qudt.org/schema/qudt/> .
+@prefix rdf:                                                                                    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:                                                                                   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:                                                                                     <http://www.w3.org/ns/shacl#> .
+@prefix skos:                                                                                   <http://www.w3.org/2004/02/skos/core#> .
+@prefix time:                                                                                   <http://www.w3.org/2006/time#>.
+@prefix unit:                                                                                   <http://qudt.org/vocab/unit/> .
+@prefix xsd:                                                                                    <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix nrd:                                                                                    <https://www.nicos-rd.com/> .
+
+@prefix weather:                                                                                <https://www.nicos-rd.com/fua/weather#> .
+
+@prefix domain-user:                                                                            <https://www.nicos-rd.com/data-space/ramp/domain-user#>.
+@prefix hr-employee:                                                                            <https://www.nicos-rd.com/data-space/ramp/hr-employee#>.
+
+@prefix local:                                                                                  <https://www.nicos-rd.com/fua/local#> .
+
+@prefix tracl:                                                                                  <https://www.nicos-rd.com/fua/tracl#> .
+
+@prefix ex:                                                                                     <https://www.nicos-rd.com/example-tracl#> .
+
+hr-employee:42-00snyder
+    a                rdfs:Resource ;
+    foaf:firstName   "Jörg" ;
+    foaf:lastName    "Langkau" ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+hr-employee:42-007
+    a                rdfs:Resource ;
+    foaf:firstName   "Simon" ;
+    foaf:lastName    "Petrac" ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+domain-user:jlangkau
+    a              foaf:Person ;
+    foaf:firstName "Jörg"^^xsd:string ;
+    foaf:lastName  "Langkau"^^xsd:string ;
+    foaf:mbox      "jlangkau@nicos-ag.com"^^xsd:string ;
+.
+
+domain-user:spetrac
+    a              foaf:Person ;
+    foaf:firstName "Simon"^^xsd:string ;
+    foaf:lastName  "Petrac"^^xsd:string ;
+    foaf:mbox      "spetrac@nicos-ag.com"^^xsd:string ;
+.
+
+ex:first
+    a                       tracl:Trans ;
+    dct:description         """"""@en ;
+    tracl:validation-shacl  "false"^^xsd:boolean ;
+    tracl:validation-method <custom:validate-that> ;
+    odrl:target             [ a           odrl:AssetCollection ;
+                              odrl:source domain-user:jlangkau ;
+                              odrl:source domain-user:spetrac ;
+#                              odrl:refinement [ a       odrl:LogicalConstraint ;
+#                                                odrl:or ( [ a        odrl:LogicalConstraint ;
+#                                                          ] ) ; ## or
+#                                              ] ## odrl:refinement
+                            ] ; ## odrl:target
+    tracl:reduction         [ a              tracl:Reduction ;
+                              tracl:property [ a               tracl:Property ;
+                                               tracl:path      foaf:firstName ;
+                                               odrl:constraint [ a        odrl:LogicalConstraint ;
+                                                   ## REM : it has to be <true>, so it stresses the provisioning of <foaf:firstName>...
+                                                   ## REM :   if NOT present, it will be interpreted as <true> (so, NO constraint on <foaf:firstName>...).
+                                                                 odrl:and ( ex:constraint-always-true
+                                                                            [ a                 odrl:Constraint ;
+                                                                                ## REM : will be evaluated at runtime... it's the weather of given service (here: holding PEP)!!!
+                                                                              odrl:leftOperand  weather:temperature ;
+                                                                              odrl:operator     odrl:gt ;
+                                                                              odrl:rightOperand "18"^^xsd:decimal ;
+                                                                              odrl:unit         unit:DEG_C ; ]
+                                                                            [ a                odrl:Constraint ;
+                                                                                ## REM : assignee is provided by context handler at runtime...
+                                                                              odrl:leftOperand tracl:assignee ;
+                                                                              odrl:operator    foaf:memberOf ; ## TODO : NOT a given predicate...
+                                                                              odrl:rightOperand
+                                                                                               ex:constraint-allowed-to-read-first-name ; ] ) ; ] ;
+#                                  ## REM : it has to be <true>, so it stresses the provisioning of <foaf:firstName>...
+#                                  ## REM : if NOT present, it will be interpreted as <true> (so, NO constraint on <foaf:firstName>...).
+#                                               odrl:constraint <https://www.nicos-rd.com/policy/tracl/constraint/always-true> ;
+#                                  ## REM : Yes, weather is important...
+#                                               odrl:constraint [ a                 odrl:Constraint ;
+#                                                   ## REM : will be evaluated at runtime... it's the weather of given service (here: holding PEP)!!!
+#                                                                 odrl:leftOperand  weather:temperature ;
+#                                                                 odrl:operator     odrl:gt ;
+#                                                                 odrl:rightOperand "18"^^xsd:decimal ;
+#                                                                 odrl:unit         unit:DEG_C ; ] ;
+#                                               odrl:constraint [ a                odrl:Constraint ;
+#                                                   ## REM : assignee is provided by context handler at runtime...
+#                                                                 odrl:leftOperand tracl:assignee ;
+#                                                                 odrl:operator    foaf:memberOf ; ## TODO : NOT a given predicate...
+#                                                                 odrl:rightOperand
+#                                                                                  <https://www.nicos-rd.com/policy/tracl/group/admin> ; ]
+
+                                      ; ] ;
+                              tracl:property [ a          tracl:Property ;
+                                               tracl:path foaf:lastName ; ] ; ] ;
+    tracl:transition        [ a               tracl:Transition ; ## Rule
+                              odrl:constraint ex:constraint-always-true ;
+                              tracl:pipe      [ a            tracl:Pipe ;
+                                                tracl:path   foaf:firstName ;
+                                                tracl:target foaf:givenName ;
+                                                tracl:flow   ( tracl:direct ) ;     ## REM : default <tracl:direct>
+                                              ] ;
+                              tracl:pipe      [ a            tracl:Pipe ;
+                                                tracl:path   foaf:lastName ;
+                                                tracl:target foaf:familyName ;
+                                                tracl:flow   ( tracl:direct ) ;     ## REM : default <tracl:direct>
+                                              ] ;
+                              tracl:pipe      [ a               tracl:Pipe ;
+                                  ## REM : here is the magic: if given <tracl:Pipe> has a constraint
+                                  ## REM :   it has to be `true`... otherwise given predicate <tracl:path> will be dropped..
+                                                odrl:constraint ex:constraint-allowed-to-read-foaf-mbox ;
+                                                tracl:path      foaf:mbox ;
+                                                tracl:target    foaf:mbox ;            ## REM : if missing <tracl:path> will be taken...
+                                                tracl:flow      ( [ a              tracl:Flow ;
+                                                                    tracl:function tracl:direct ; ] ) ;     ## REM : default <tracl:direct>
+                                              ] ;
+                              tracl:pipe      [ a               tracl:Pipe ;
+                                  ## REM : here is the magic: if given <tracl:Pipe> has a constraint
+                                  ## REM :   it has to be `true`... otherwise given predicate <tracl:path> will be dropped..
+                                                odrl:constraint ex:constraint-allowed-to-read-foaf-mbox ;
+                                                tracl:path      foaf:mbox ;
+                                                tracl:target    nrd:mbox_base64 ;
+                                                tracl:flow      ( [ a              tracl:Flow ;
+                                                                    tracl:function tracl:encodeBase64 ; ] ) ;     ## REM : default <tracl:direct>
+                                              ] ;
+                              tracl:pipe      [ a               tracl:Pipe ;
+                                  ## REM : here is the magic: if given <tracl:Pipe> has a constraint
+                                  ## REM :   it has to be `true`... otherwise given predicate <tracl:path> will be dropped..
+                                                odrl:constraint ex:constraint-allowed-to-read-foaf-mbox ;
+                                                tracl:path      foaf:mbox ;
+                                                tracl:target    nrd:mbox_hash ;
+                                                tracl:flow      ( [ a               tracl:Flow ;
+                                                                    tracl:function  tracl:hash ;
+                                                                    tracl:parameter [ a               tracl:hash-Parameter ;
+                                                                                      tracl:hash-type tracl:hash-sha256 ; ] ; ] ) ;     ## REM : default <tracl:direct>
+                                              ] ; ] ;
+    rdfs:isDefinedBy        nrd: ;
+. ## <https://www.nicos-rd.com/policy/tracl/first>
+
+ex:constraint-always-true
+    a                odrl:LogicalConstraint ;
+    ## REM : "Yes, a very senseless constraint, hopefully <true> all the time! ...only demonstrating what can happen here..."
+    odrl:or          [ a        odrl:LogicalConstraint ;
+                       odrl:and ( [ a                 odrl:Constraint ;
+                           ## REM : "<time:now> will be evaluated at runtime by PEPs context handler." ;
+                                    odrl:leftOperand  time:now ;
+                                    odrl:operator     time:after ;
+                                    odrl:rightOperand "1962Z"^^time:Year ; ] ) ; ##and
+                     ] ;
+    odrl:or          [ a                 odrl:Constraint ;
+        ## REM : "for sure <true> - or?!?" ;
+                       odrl:leftOperand  "42"^^xsd:nonNegativeInteger ;
+                       odrl:operator     odrl:lt ;
+                       odrl:rightOperand "43"^^xsd:nonNegativeInteger ; ] ; ## or
+    rdfs:isDefinedBy nrd: ;
+.
+
+ex:constraint-allowed-to-read-first-name
+    a                 odrl:Constraint ;
+    odrl:leftOperand  local:user ; ## REM : will be fetch at runtime from context handler
+    odrl:operator     foaf:memberOf ;
+    odrl:rightOperand <https://www.nicos-rd.com/domain/group/allowed-to-read-foaf-mbox> ;
+.
+
+<https://www.nicos-rd.com/domain/group/allowed-to-read-first-name>
+    a           foaf:Group ;
+    foaf:member domain-user:jlangkau ;
+.
+
+ex:constraint-allowed-to-read-foaf-mbox
+    a                 odrl:Constraint ;
+    odrl:leftOperand  local:user ; ## REM : will be fetch at runtime from context handler
+    odrl:operator     foaf:memberOf ;
+    odrl:rightOperand <https://www.nicos-rd.com/domain/group/allowed-to-read-foaf-mbox> ;
+.
+
+<https://www.nicos-rd.com/domain/group/allowed-to-read-foaf-mbox>
+    a           foaf:Group ;
+    foaf:member domain-user:jlangkau ;
+.
+
+## EOF
