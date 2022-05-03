@@ -1,5 +1,6 @@
 @prefix dct:                                                                                    <http://purl.org/dc/terms/> .
 @prefix foaf:                                                                                   <http://xmlns.com/foaf/0.1/> .
+@prefix ldp:                                                                                    <http://www.w3.org/ns/ldp#> .
 @prefix org:                                                                                    <http://www.w3.org/ns/org#> .
 @prefix owl:                                                                                    <http://www.w3.org/2002/07/owl#> .
 @prefix rdf:                                                                                    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
@@ -17,6 +18,7 @@
 
 fua:Subject ## abstract
     a                owl:Class ;
+#    rdfs:subClassOf  ldp:BasicContainer ;
     skos:notation    "Subject"^^xsd:string ;
     rdfs:label       "Subject"@en ;
     rdfs:isDefinedBy nrd: ;
@@ -24,16 +26,18 @@ fua:Subject ## abstract
 
 fua:Property
     a                owl:Class ;
+#    rdfs:subClassOf  ldp:Resource ;
     skos:notation    "Property"^^xsd:string ;
     rdfs:label       "Property"@en ;
     rdfs:isDefinedBy nrd: ;
 .
 
+## TODO : wäre fua:Subject ein ldp:Container, könnte dann vielleicht contains genommen werden?
 fua:property
     a                owl:ObjectProperty ;
     skos:notation    "property"^^xsd:string ;
     rdfs:label       "Property"@en ;
-    dct:description """All properties of given Subject."""@en ;
+    dct:description  """All properties of given Subject."""@en ;
     rdfs:domain      fua:Subject ;
     rdfs:range       fua:Property ;
     rdfs:isDefinedBy nrd: ;

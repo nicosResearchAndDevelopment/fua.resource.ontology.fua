@@ -4,13 +4,14 @@
 @prefix owl:                                                                                    <http://www.w3.org/2002/07/owl#> .
 @prefix rdf:                                                                                    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:                                                                                   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos:                                                                                   <http://www.w3.org/2004/02/skos/core#> .
 @prefix time:                                                                                   <http://www.w3.org/2006/time#> .
 @prefix vann:                                                                                   <http://purl.org/vocab/vann/> .
 @prefix voaf:                                                                                   <http://purl.org/vocommons/voaf#> .
 @prefix void:                                                                                   <http://rdfs.org/ns/void#> .
 @prefix xsd:                                                                                    <http://www.w3.org/2001/XMLSchema#> .
 
-@prefix nrd:                                                                                    <https://www.nicos-rd.com/> .
+#@prefix nrd:                                                                                    <https://www.nicos-rd.com/> .
 
 @prefix fua:                                                                                    <https://www.nicos-rd.com.org/fua#> .
 
@@ -23,14 +24,71 @@ fua:
     vann:preferredNamespacePrefix "fua" ;
 ## TODO: "void:vocabulary" to be clarified!
     void:vocabulary               dct:, foaf:, org:, owl:, rdf:, rdfs:, vann:, void:, voaf:, xsd: ;
-    rdfs:isDefinedBy              nrd: ;
+    rdfs:isDefinedBy              fua: ;
 .
 
 fua:timestamp
     a                owl:DatatypeProperty ;
-    rdfs:label       "Timestamp" ;
+    skos:notation    "timestamp"^^xsd:string ;
+    rdfs:label       "Timestamp"@en ;
+    rdfs:label       "Zeitstempel"@de ;
     rdfs:range       xsd:dateTimeStamp ;
-    rdfs:isDefinedBy nrd: ;
+    rdfs:isDefinedBy fua: ;
+.
+
+fua:creator
+    a                owl:DatatypeProperty ;
+    skos:notation    "creator"^^xsd:string ;
+    rdfs:label       "Creator"@en ;
+    rdfs:label       "Hersteller"@de ;
+    dct:description  "Creator of given resource."@en ;
+    rdfs:range       foaf:Agent ;
+    owl:sameAs       dct:creator ;
+    rdfs:isDefinedBy fua: ;
+.
+
+fua:created
+    a                owl:DatatypeProperty ;
+    skos:notation    "created"^^xsd:string ;
+    rdfs:label       "Created"@en ;
+    rdfs:label       "Hergestellt"@de ;
+    dct:description  "Creation of given resource."@en ;
+    rdfs:range       xsd:dateTimeStamp, xsd:date, xsd:dateTime ;
+    owl:sameAs       dct:created ;
+    rdfs:isDefinedBy fua: ;
+.
+
+fua:modified
+    a                owl:DatatypeProperty ;
+    skos:notation    "modified"^^xsd:string ;
+    rdfs:label       "Modified"@en ;
+    rdfs:label       "Geändert"@de ;
+    dct:description  "Modification (time) of given resource."@en ;
+    rdfs:range       xsd:dateTimeStamp, xsd:date, xsd:dateTime ;
+    owl:sameAs       dct:modified ;
+    rdfs:isDefinedBy fua: ;
+.
+
+fua:hasBeginning
+    a                owl:ObjectProperty ;
+    skos:notation    "hasBeginning"^^xsd:string ;
+    rdfs:label       "Has Beginning"@en ;
+    rdfs:label       "Start"@de ;
+#    dct:description  """."""@en ;
+    rdfs:range       time:Instant ;
+    owl:sameAs       time:hasBeginning ;
+    rdfs:isDefinedBy fua: ;
+.
+
+fua:hasEnd
+    a                owl:ObjectProperty ;
+    skos:notation    "hasEnd"^^xsd:string ;
+    rdfs:label       "Has End"@en ;
+    rdfs:label       "Ende"@de ;
+#    dct:description  """."""@en ;
+    rdfs:range       time:Instant ;
+    owl:sameAs       time:hasEnd ;
+    rdfs:isDefinedBy fua: ;
 .
 
 fua:interval
@@ -38,7 +96,7 @@ fua:interval
     rdfs:label       "Time interval" ;
     dct:description  "Begin and end of given (time) interval."@en ;
     rdfs:range       time:ProperInterval ;
-    rdfs:isDefinedBy nrd: ;
+    rdfs:isDefinedBy fua: ;
 .
 
 fua:position
@@ -48,7 +106,7 @@ fua:position
 #    rdfs:comment       "" ;
 # REM: list
     rdfs:range       fua:Position ;
-    rdfs:isDefinedBy nrd: ;
+    rdfs:isDefinedBy fua: ;
 .
 
 fua:

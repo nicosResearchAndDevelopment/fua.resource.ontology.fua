@@ -1,0 +1,578 @@
+@prefix dct:                                                                                    <http://purl.org/dc/terms/> .
+@prefix fno:                                                                                    <https://w3id.org/function/ontology#> .
+@prefix foaf:                                                                                   <http://xmlns.com/foaf/0.1/> .
+@prefix odrl:                                                                                   <http://www.w3.org/ns/odrl/2/> .
+@prefix org:                                                                                    <http://www.w3.org/ns/org#> .
+@prefix owl:                                                                                    <http://www.w3.org/2002/07/owl#> .
+@prefix qudt:                                                                                   <http://qudt.org/schema/qudt/> .
+@prefix rdf:                                                                                    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:                                                                                   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:                                                                                     <http://www.w3.org/ns/shacl#> .
+@prefix skos:                                                                                   <http://www.w3.org/2004/02/skos/core#> .
+@prefix time:                                                                                   <http://www.w3.org/2006/time#>.
+@prefix unit:                                                                                   <http://qudt.org/vocab/unit/> .
+@prefix vann:                                                                                   <http://purl.org/vocab/vann/> .
+@prefix voaf:                                                                                   <http://purl.org/vocommons/voaf#> .
+@prefix void:                                                                                   <http://rdfs.org/ns/void#> .
+@prefix xsd:                                                                                    <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix nrd:                                                                                    <https://www.nicos-rd.com/> .
+@prefix fua:                                                                                    <https://www.nicos-rd.com.org/fua#> .
+@prefix elevator:                                                                               <https://www.nicos-rd.com/fua/elevator#> .
+
+elevator:
+    a                             voaf:Vocabulary ;
+    a                             owl:Ontology ;
+    skos:prefLabel                "elevator"^^xsd:string ;
+    rdfs:label                    "Model for Elevators"@en ;
+    dct:title                     "Model for Elevators"@en ;
+# <TODO> cc:license                    <http://www.apache.org/licenses/LICENSE-2.0> ;
+    dct:creator                   <https://github.com/jlangkau> ;
+    dct:creator                   <https://jlangkau.solidweb.org/> ;
+    dct:publisher                 <http://www.nicos-rd.com/> ;
+    dct:created                   "2022-05-03"^^xsd:date ;
+    dct:modified                  "2022-05-03"^^xsd:date ; ## REM : replaced by assembly
+    owl:versionInfo               "0.0.1" ;
+#    owl:versionIRI                :v0-0-1 ;
+    vann:preferredNamespaceUri    "https://www.nicos-rd.com/fua/elevator#" ;
+    vann:preferredNamespacePrefix "elevator:" ;
+## <TODO> rdfs:seeAlso                  <> ;
+    void:vocabulary               vann:, void:, voaf:, dct: ;
+    rdfs:isDefinedBy              nrd: ;
+. # :
+
+
+#region Elevator
+
+elevator:Elevator
+    a                owl:Class ; ## REM : abstract
+    rdfs:subClassOf  fua:Subject ;
+    #    rdfs:subClassOf  fua:Self ; # REM safety-control
+    skos:notation    "Elevator"^^xsd:string ;
+    rdfs:label       "Elevator"@en ;
+    rdfs:label       "Fahrstuhl"@de ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:ElevatorState
+# abstract
+    rdfs:subClassOf  elevator:State ;
+    skos:notation    "ElevatorState"^^xsd:string ;
+    rdfs:label       "State of Elevator"@en ;
+    rdfs:label       "Status des Fahrstuhls"@de ;
+#    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:elevatorState_ACTIVE
+    a                elevator:ElevatorState ;
+    skos:notation    "elevatorState_ACTIVE"^^xsd:string ;
+    rdfs:label       "State of Elevator 'ACTIVE'"@en ;
+    rdfs:label       "Status des Fahrstuhls 'ACTIVE'"@de ;
+#    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:elevatorState_INACTIVE
+    a                elevator:ElevatorState ;
+    skos:notation    "elevatorState_INACTIVE"^^xsd:string ;
+    rdfs:label       "State of Elevator 'INACTIVE'"@en ;
+    rdfs:label       "Status des Fahrstuhls 'INACTIVE'"@de ;
+#    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+#endregion Elevator
+
+#region Level
+
+elevator:LevelUI
+    a                owl:Class ;
+#    rdfs:subClassOf  fua:Subject ;
+    skos:notation    "LevelUI"^^xsd:string ;
+    rdfs:label       "Level User Interface"@en ;
+    rdfs:label       "Ebenenbedienung"@de ;
+    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:levelUI
+    a                owl:ObjectProperty ;
+    skos:notation    "levelUI"^^xsd:string ;
+    rdfs:label       "Level User Interface"@en ;
+    rdfs:label       "Ebenenbedienung"@de ;
+    rdfs:domain      ( elevator:Elevator
+                         # elevator:System
+                     ) ;
+    ## TODO : 1..1
+    rdfs:range       elevator:LevelUI ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:LevelCommandButton
+# abstract
+    a                owl:Class ;
+    skos:notation    "LevelCommandButton"^^xsd:string ;
+    rdfs:label       "Command Button"@en ;
+    rdfs:label       "Kommandoschalter"@de ;
+    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:LevelCommandButton_ORDER
+    a                owl:Class ;
+    rdfs:subClassOf  elevator:LevelCommandButton ;
+    skos:notation    "CommandButton_ORDER"^^xsd:string ;
+    rdfs:label       "Command Button 'Oder'"@en ;
+    rdfs:label       "Kommandoschalter 'Anforderung'"@de ;
+    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+#endregion Level
+
+elevator:order
+    a                owl:ObjectProperty ;
+    skos:notation    "order"^^xsd:string ;
+    rdfs:label       "Call"@en ;
+    rdfs:label       "Anfordern"@de ;
+    rdfs:domain      elevator:LevelUI ;
+    ## TODO : 1..1
+    rdfs:range       elevator:LevelCommandButton_ORDER ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:motor
+    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+    skos:notation    "motor"^^xsd:string ;
+    rdfs:label       "Motor"@en ;
+    rdfs:label       "Motor"@de ;
+    rdfs:domain      elevator:Elevator ;
+    ## TODO : 1..1
+    rdfs:range       elevator:Motor ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:cage
+    a                rdf:Property, owl:ObjectProperty, skos:Concept ;
+    skos:notation    "cage"^^xsd:string ;
+    rdfs:label       "Cage"@en ;
+    rdfs:label       "Kabine"@de ;
+    rdfs:domain      elevator:Elevator ;
+    ## TODO : 1..1
+    rdfs:range       elevator:Cage ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:maximumLoadCapacity
+    a                owl:DatatypeProperty ;
+    skos:notation    "maximumLoadCapacity"^^xsd:string ;
+    rdfs:label       "Maximum load capacity"@en ;
+    rdfs:label       "Maximale Zuladung"@de ;
+    rdfs:domain      elevator:Elevator ;
+    ## TODO : 1..1
+    rdfs:range       xsd:nonNegativeInteger ; # REM : Kg
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:Cage
+    a                owl:Class ;
+    rdfs:subClassOf  fua:Subject ;
+    skos:notation    "Cage"^^xsd:string ;
+    rdfs:label       "Cage"@en ;
+    rdfs:label       "Kabine"@de ;
+    skos:definition  """"""@en ;
+    ## TODO : 1..1
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:cageTare
+    a                owl:DatatypeProperty ;
+    skos:notation    "cageTare"^^xsd:string ;
+    rdfs:label       "Tare of Cage"@en ;
+    rdfs:label       "Leegewicht Kabine"@de ;
+    rdfs:domain      elevator:Cage ;
+    ## TODO : 1..1
+    rdfs:range       xsd:nonNegativeInteger ; # REM : Kg
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:maximumPerson
+    a                owl:DatatypeProperty ;
+    skos:notation    "maximumPerson"^^xsd:string ;
+    rdfs:label       "Maximum number of persons"@en ;
+    rdfs:label       "Maximal Anzahl von Personen"@de ;
+    rdfs:domain      elevator:Cage ;
+    ## TODO : 1..1
+    rdfs:range       xsd:nonNegativeInteger ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:currentAmountPersons
+    a                owl:DatatypeProperty ;
+    skos:notation    "currentPersons"^^xsd:string ;
+    rdfs:label       "Current amount of persons"@en ;
+    rdfs:label       "Aktuelle Anzahl von Personen"@de ;
+    rdfs:domain      elevator:Cage ;
+    ## TODO : 1..1
+    rdfs:range       xsd:nonNegativeInteger ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:cageUI
+    a                owl:DatatypeProperty ;
+    skos:notation    "cageUI"^^xsd:string ;
+    rdfs:label       "Cage User Interface"@en ;
+    rdfs:label       "Kabinenbedienung"@de ;
+    rdfs:domain      elevator:Cage ;
+    ## TODO : 1..1
+    rdfs:range       elevator:CageUI ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:CageUI
+    a                owl:Class ;
+    rdfs:subClassOf  fua:Subject ;
+    skos:notation    "CageUI"^^xsd:string ;
+    rdfs:label       "Cage User Interface"@en ;
+    rdfs:label       "Kabinenbedienung"@de ;
+    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:CageCommandButton
+# abstract
+    a                owl:Class ;
+    skos:notation    "CageCommandButton"^^xsd:string ;
+    rdfs:label       "Cage Button"@en ;
+    rdfs:label       "Kabinenschalter"@de ;
+    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:CageCommandButton_GoToLevel
+    a                owl:Class ;
+    rdfs:subClassOf  elevator:CageCommandButton ;
+    skos:notation    "CommandButton_GOTOLEVEL"^^xsd:string ;
+    rdfs:label       "Command Button 'GoToLevel'"@en ;
+    rdfs:label       "Kommandoschalter 'Gehe zu Ebene'"@de ;
+    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:gotToLevel
+    a                owl:ObjectProperty ;
+    skos:notation    "order"^^xsd:string ;
+    rdfs:label       "Call"@en ;
+    rdfs:label       "Fordere an"@de ;
+    rdfs:domain      elevator:CageUI ;
+    ## TODO : 0..n
+    rdfs:range       elevator:CageCommandButton_GoToLevel ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:Motor
+    a                owl:Class ;
+    rdfs:subClassOf  fua:Subject ;
+    skos:notation    "Motor"^^xsd:string ;
+    rdfs:label       "Motor"@en ;
+    rdfs:label       "Motor"@de ;
+    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:maximumCageWeight
+    a                owl:DatatypeProperty ;
+    skos:notation    "maximumCageWeight"^^xsd:string ;
+    rdfs:label       "Tare of Cage"@en ;
+    rdfs:label       "Leegewicht Kabine"@de ;
+    rdfs:domain      elevator:Motor ;
+    ## TODO : 1..1
+    rdfs:range       xsd:nonNegativeInteger ; # REM : Kg
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:Level
+    a                owl:Class ;
+    skos:notation    "Level"^^xsd:string ;
+    rdfs:label       "Level"@en ;
+    rdfs:label       "Ebene"@de ;
+    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:level
+    a                owl:ObjectProperty ;
+    skos:notation    "level"^^xsd:string ;
+    rdfs:label       "Level"@en ;
+    rdfs:label       "Ebene"@de ;
+    rdfs:domain      ( elevator:LevelUI
+                       elevator:LevelCommandButton
+                       elevator:CageUI
+                       elevator:CageCommandButton_GoToLevel ) ;
+    rdfs:range       elevator:Level ;
+    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:levelNominal
+    a                owl:DatatypeProperty ;
+    skos:notation    "levelNominal"^^xsd:string ;
+    rdfs:label       "Level Nominal"@en ;
+    rdfs:label       "Ebene Nominal"@de ;
+    rdfs:domain      elevator:Level ;
+    rdfs:range       xsd:integer ;
+    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:levelAltitude
+    a                owl:DatatypeProperty ;
+    skos:notation    "levelAltitude"^^xsd:string ;
+    rdfs:label       "Level Altitude"@en ;
+    rdfs:label       "Ebenenhöhe"@de ;
+    rdfs:domain      elevator:Level ;
+    rdfs:range       xsd:decimal ; # REM : elevator-base = 0.0m
+    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:nextUpperLevel
+    a                owl:ObjectProperty ;
+    skos:notation    "nextUpperLevel"^^xsd:string ;
+    rdfs:label       "Next upper Level"@en ;
+    rdfs:label       "Nächst höhere Ebene"@de ;
+    rdfs:domain      elevator:Level ;
+    # 0..1
+    rdfs:range       elevator:Level ;
+    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:nextBelowLevel
+    a                owl:ObjectProperty ;
+    skos:notation    "nextBelowLevel"^^xsd:string ;
+    rdfs:label       "Next lower Level"@en ;
+    rdfs:label       "Nächst tiefere Ebene"@de ;
+    rdfs:domain      elevator:Level ;
+    # 0..1
+    rdfs:range       elevator:Level ;
+    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:nextStopLevel
+    a                owl:ObjectProperty ;
+    skos:notation    "nextStopLevel"^^xsd:string ;
+    rdfs:label       "Next stop Level"@en ;
+    rdfs:label       "Ebene des nächste Halts"@de ;
+    rdfs:domain      elevator:Elevator ;
+    # 0..1
+    rdfs:range       elevator:Level ;
+    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:currentCageAltitude
+    a                fua:Property ;
+    skos:notation    "currentCageAltitude"^^xsd:string ;
+    rdfs:label       "Current Cage Altitude"@en ;
+    rdfs:label       "Aktuelle Kabinenhöhe"@de ;
+    rdfs:domain      elevator:Cage ;
+    rdfs:range       xsd:decimal ; # REM : elevator-base = 0.0m
+    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+#region State
+elevator:State
+# abstract
+    a                fua:Property ;
+    skos:notation    "State"^^xsd:string ;
+    rdfs:label       "State"@en ;
+    rdfs:label       "Status"@de ;
+    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:state
+    a                fua:Property ;
+    skos:notation    "state"^^xsd:string ;
+    rdfs:label       "State"@en ;
+    rdfs:label       "Status"@de ;
+    rdfs:domain      ( elevator:CageDoor
+                       elevator:ElevatorDoor ) ;
+    rdfs:range       elevator:State ;
+#    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+#endregion State
+
+#region Door
+
+elevator:Door
+# abstract
+    a                owl:Class ;
+    skos:notation    "Door"^^xsd:string ;
+    rdfs:label       "Door"@en ;
+    rdfs:label       "Door"@de ;
+    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:CageDoor
+# abstract
+    a                owl:Class ;
+    rdfs:subClassOf  elevator:Door ;
+    skos:notation    "CageDoor"^^xsd:string ;
+    rdfs:label       "Cage Door"@en ;
+    rdfs:label       "Kabinentür"@de ;
+    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:ElevatorDoor
+# abstract
+    a                owl:Class ;
+    rdfs:subClassOf  elevator:Door ;
+    skos:notation    "ElevatorDoor"^^xsd:string ;
+    rdfs:label       "Elevator Door"@en ;
+    rdfs:label       "Fahrstuhltür"@de ;
+#    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:DoorState
+# abstract
+    rdfs:subClassOf  elevator:State ;
+    skos:notation    "DoorState"^^xsd:string ;
+    rdfs:label       "State of Door"@en ;
+    rdfs:label       "Status der Tür"@de ;
+#    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+#region Door State Individuals
+
+elevator:doorState_OPEN
+    a                elevator:DoorState ;
+    skos:notation    "doorState_OPEN"^^xsd:string ;
+    rdfs:label       "State of Door 'OPEN'"@en ;
+    rdfs:label       "Status der Tür 'OFFEN'"@de ;
+#    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:doorState_CLOSE
+    a                elevator:DoorState ;
+    skos:notation    "doorState_CLOSE"^^xsd:string ;
+    rdfs:label       "State of Door 'CLOSE'"@en ;
+    rdfs:label       "Status der Tür 'CLOSE'"@de ;
+#    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:doorState_OPENING
+    a                elevator:DoorState ;
+    skos:notation    "doorState_OPENING"^^xsd:string ;
+    rdfs:label       "State of Door 'OPENING'"@en ;
+    rdfs:label       "Status der Tür 'OPENING'"@de ;
+#    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:doorState_CLOSING
+    a                elevator:DoorState ;
+    skos:notation    "doorState_CLOSING"^^xsd:string ;
+    rdfs:label       "State of Door 'CLOSING'"@en ;
+    rdfs:label       "Status der Tür 'CLOSING'"@de ;
+#    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+#endregion Door State Individuals
+
+#endregion Door
+
+#region Cabin State
+
+elevator:CabinState
+# abstract
+    rdfs:subClassOf  elevator:State ;
+    skos:notation    "CabinState"^^xsd:string ;
+    rdfs:label       "State of Cabin"@en ;
+    rdfs:label       "Status der Kabine"@de ;
+#    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+#region Cabin State Individuals
+
+elevator:cabinState_RESTING
+    a                elevator:CabinState ;
+    skos:notation    "cabinState_RESTING"^^xsd:string ;
+    rdfs:label       "State of Cabin 'RESTING'"@en ;
+    rdfs:label       "Status der Tür 'RESTING'"@de ;
+#    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:cabinState_ACCELERATION
+    a                elevator:CabinState ;
+    skos:notation    "cabinState_ACCELERATION"^^xsd:string ;
+    rdfs:label       "State of Cabin 'ACCELERATION'"@en ;
+    rdfs:label       "Status der Tür 'ACCELERATION'"@de ;
+#    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:cabinState_CONSTANT_VELOCITY
+    a                elevator:CabinState ;
+    skos:notation    "cabinState_CONSTANT_VELOCITYN"^^xsd:string ;
+    rdfs:label       "State of Cabin 'CONSTANT_VELOCITY'"@en ;
+    rdfs:label       "Status der Tür 'CONSTANT_VELOCITY'"@de ;
+#    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:cabinState_DECELERATION
+    a                elevator:CabinState ;
+    skos:notation    "cabinState_DECELERATION"^^xsd:string ;
+    rdfs:label       "State of Cabin 'DECELERATION'"@en ;
+    rdfs:label       "Status der Tür 'DECELERATION'"@de ;
+#    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+#endregion Cabin State Individuals
+
+#endregion Cabin State
+
+#region ElevatorOrchestrator
+
+elevator:ElevatorOrchestrator
+    a                owl:Class ;
+    rdfs:subClassOf  fua:Subject ;
+#    rdfs:subClassOf  fua:Self ; # REM safety-control
+    skos:notation    "ElevatorOrchestrator"^^xsd:string ;
+    rdfs:label       "Elevator Orchestrator"@en ;
+    rdfs:label       "Elevator Orchestrator"@de ;
+    skos:definition  """'elevator:ElevatorOrchestrator' expresses the orchestration of given elevators.So, do so, we can put 'The Intelligence' in here..."""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:elevator
+    a                owl:ObjectProperty ;
+    skos:notation    "elevator"^^xsd:string ;
+    rdfs:label       "Elevator"@en ;
+    rdfs:label       "Fahrstuhl"@de ;
+    rdfs:domain      elevator:ElevatorOrchestrator ;
+    ## TODO : 1..n
+    rdfs:range       elevator:Elevator ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+#region ElevatorOrchestrator
+
+## EOF
