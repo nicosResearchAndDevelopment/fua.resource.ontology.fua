@@ -57,8 +57,8 @@ fua:ObjectProperty
     a                owl:Class ;
     rdfs:subClassOf  fua:Property ;
 #    rdfs:subClassOf  ldp:Resource ;
-    skos:notation    "DatatypeProperty"^^xsd:string ;
-    rdfs:label       "Datatype Property"@en ;
+    skos:notation    "ObjectProperty"^^xsd:string ;
+    rdfs:label       "Object Property"@en ;
     fua:valueType    owl:ObjectProperty ;
     rdfs:isDefinedBy nrd: ;
 .
