@@ -153,10 +153,10 @@ elevator:motor
     rdfs:isDefinedBy nrd: ;
 .
 
-elevator:cage
+elevator:cabin
     a                rdf:Property, owl:ObjectProperty, skos:Concept ;
-    skos:notation    "cage"^^xsd:string ;
-    rdfs:label       "Cage"@en ;
+    skos:notation    "cabin"^^xsd:string ;
+    rdfs:label       "Cabin"@en ;
     rdfs:label       "Kabine"@de ;
     rdfs:domain      elevator:Elevator ;
     ## TODO : 1..1
@@ -224,7 +224,7 @@ elevator:cageUI
     skos:notation    "cageUI"^^xsd:string ;
     rdfs:label       "Cage User Interface"@en ;
     rdfs:label       "Kabinenbedienung"@de ;
-    rdfs:domain      elevator:Cage ;
+    rdfs:domain      elevator:Elevator ;
     ## TODO : 1..1
     rdfs:range       elevator:CageUI ;
     rdfs:isDefinedBy nrd: ;
@@ -265,7 +265,7 @@ elevator:gotToLevel
     skos:notation    "order"^^xsd:string ;
     rdfs:label       "Call"@en ;
     rdfs:label       "Fordere an"@de ;
-    rdfs:domain      elevator:CageUI ;
+    rdfs:domain      elevator:Elevator ;
     ## TODO : 0..n
     rdfs:range       elevator:CageCommandButton_GoToLevel ;
     rdfs:isDefinedBy nrd: ;
@@ -286,7 +286,7 @@ elevator:maximumCageWeight
     skos:notation    "maximumCageWeight"^^xsd:string ;
     rdfs:label       "Tare of Cage"@en ;
     rdfs:label       "Leegewicht Kabine"@de ;
-    rdfs:domain      elevator:Motor ;
+    rdfs:domain      elevator:Elevator ;
     ## TODO : 1..1
     rdfs:range       xsd:nonNegativeInteger ; # REM : Kg
     rdfs:isDefinedBy nrd: ;
@@ -378,7 +378,7 @@ elevator:currentCageAltitude
     skos:notation    "currentCageAltitude"^^xsd:string ;
     rdfs:label       "Current Cage Altitude"@en ;
     rdfs:label       "Aktuelle Kabinenhöhe"@de ;
-    rdfs:domain      elevator:Cage ;
+    rdfs:domain      elevator:Elevator ;
     rdfs:range       xsd:decimal ; # REM : elevator-base = 0.0m
     skos:definition  """"""@en ;
     rdfs:isDefinedBy nrd: ;
@@ -400,9 +400,54 @@ elevator:state
     skos:notation    "state"^^xsd:string ;
     rdfs:label       "State"@en ;
     rdfs:label       "Status"@de ;
-    rdfs:domain      ( elevator:CageDoor
+    rdfs:domain      ( elevator:Elevator
+                       elevator:CageDoor
                        elevator:ElevatorDoor ) ;
     rdfs:range       elevator:State ;
+#    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:elevatorState
+    a                fua:Property ;
+    skos:notation    "elevatorState"^^xsd:string ;
+    rdfs:label       "State of Elevator"@en ;
+    rdfs:label       "Status des Fahrstuhls"@de ;
+    rdfs:domain      ( elevator:Elevator ) ;
+    rdfs:range       elevator:ElevatorState ;
+#    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:elevatorDoorState
+    a                fua:Property ;
+    skos:notation    "elevatorDoorState"^^xsd:string ;
+    rdfs:label       "State of Elevator Door"@en ;
+    rdfs:label       "Status des Fahrstuhlstür"@de ;
+    rdfs:domain      ( elevator:Elevator ) ;
+    rdfs:range       elevator:DoorState ;
+#    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:cageState
+    a                fua:Property ;
+    skos:notation    "cageDoorState"^^xsd:string ;
+    rdfs:label       "State of Cage Door"@en ;
+    rdfs:label       "Status des Kabinentür"@de ;
+    rdfs:domain      ( elevator:Elevator ) ;
+    rdfs:range       elevator:CageState ;
+#    skos:definition  """"""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+elevator:cageDoorState
+    a                fua:Property ;
+    skos:notation    "cageDoorState"^^xsd:string ;
+    rdfs:label       "State of Cage Door"@en ;
+    rdfs:label       "Status des Kabinentür"@de ;
+    rdfs:domain      ( elevator:Elevator ) ;
+    rdfs:range       elevator:DoorState ;
 #    skos:definition  """"""@en ;
     rdfs:isDefinedBy nrd: ;
 .
@@ -529,7 +574,7 @@ elevator:cabinState_ACCELERATION
 
 elevator:cabinState_CONSTANT_VELOCITY
     a                elevator:CabinState ;
-    skos:notation    "cabinState_CONSTANT_VELOCITYN"^^xsd:string ;
+    skos:notation    "cabinState_CONSTANT_VELOCITY"^^xsd:string ;
     rdfs:label       "State of Cabin 'CONSTANT_VELOCITY'"@en ;
     rdfs:label       "Status der Tür 'CONSTANT_VELOCITY'"@de ;
 #    skos:definition  """"""@en ;
