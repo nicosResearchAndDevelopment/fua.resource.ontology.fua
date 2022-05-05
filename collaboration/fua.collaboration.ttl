@@ -33,7 +33,7 @@ fua:head
     rdfs:label       "Leitung"@de ;
     rdfs:domain      [ rdf:type    owl:Class ;
                        owl:unionOf ( fua:Collaboration ) ; ] ;
-    rdfs:range       fua:Team ;
+    rdfs:range       foaf:Agent ;
     owl:inverseOf    org:headOf ;
     rdfs:comment     """Sub-set of <org:hasMember>."""@en ;
     rdfs:isDefinedBy fua: ;
@@ -96,6 +96,7 @@ fua:WorkingGroup
 fua:SubWorkingGroup
     a                owl:Class ;
     rdfs:subClassOf  fua:WorkingGroup ;
+    rdfs:subClassOf  org:OrganizationalUnit ;
     skos:notation    "SubWorkingGroup"^^xsd:string ;
     rdfs:label       "Sub-Working Group"@en ;
     rdfs:label       "Unterarbeitsgruppe"@de ;
@@ -110,6 +111,7 @@ fua:subWorkingGroup
     rdfs:label       "Unterarbeitsgruppe"@de ;
     rdfs:domain      [ rdf:type    owl:Class ;
                        owl:unionOf ( fua:WorkingGroup fua:subWorkingGroup ) ; ] ;
+    # 0..n
     rdfs:range       fua:SubWorkingGroup ;
     rdfs:isDefinedBy fua: ;
 .
@@ -120,13 +122,15 @@ fua:subWorkingGroup
 
 fua:Project
     a                owl:Class ;
-    rdfs:subClassOf  time:Interval ;            # REM : ...stressing hasBeginning, hasEnd
+#    TODO : rdfs:subClassOf  time:Interval ;            # REM : ...stressing hasBeginning, hasEnd
     ## REM : ...or uses fua:hasBeginning, fua:hasEnd a leave the latter undefined? Hm...
 #    rdfs:subClassOf  fua:Self ;                 # REM : ...to host health or safety or narration :-) ?!?
     skos:notation    "Project"^^xsd:string ;
     rdfs:label       "Project"@en ;
     rdfs:label       "Projekt"@de ;
 #    dct:description  """."""@en ;
+    # REM : uses:
+    #       fua:interval, 1..1
     rdfs:isDefinedBy fua: ;
 .
 
@@ -136,6 +140,7 @@ fua:followingProject
     rdfs:label       "Following Project"@en ;
     rdfs:label       "Nachfolgeprojekt"@de ;
     rdfs:domain      fua:Project ;
+    # 0..n
     rdfs:range       fua:Project ;
     dct:description  """Property, indicating a targeted project related to given project."""@en ;
     rdfs:isDefinedBy fua: ;
@@ -147,6 +152,7 @@ fua:previousProject
     rdfs:label       "Previous Project"@en ;
     rdfs:label       "Vorgängerprojekt"@de ;
     rdfs:domain      fua:Project ;
+    # 0..1
     rdfs:range       fua:Project ;
     dct:description  """Property, indicating a targeted project was running before given project."""@en ;
     rdfs:isDefinedBy fua: ;
@@ -157,6 +163,7 @@ fua:project
     skos:notation    "project"^^xsd:string ;
     rdfs:label       "Project"@en ;
     rdfs:label       "Projekt"@de ;
+    # 0..n
     rdfs:range       fua:Project ;
     dct:description  """Universally applicable property, indicating a given project."""@en ;
     rdfs:isDefinedBy fua: ;
@@ -165,6 +172,7 @@ fua:project
 fua:SubProject
     a                owl:Class ;
     rdfs:subClassOf  fua:Project ;
+    rdfs:subClassOf  org:OrganizationalUnit ;
     skos:notation    "SubProject"^^xsd:string ;
     rdfs:label       "Sub-Project"@en ;
     rdfs:label       "Unterprojekt"@de ;
@@ -193,6 +201,7 @@ fua:subProject
     rdfs:label       "Teilprojekt"@de ;
     rdfs:domain      [ rdf:type    owl:Class ;
                        owl:unionOf ( fua:Project fua:SubProject ) ; ] ;
+    # 0..n
     rdfs:range       fua:SubProject ;
     rdfs:isDefinedBy fua: ;
 .
@@ -205,12 +214,12 @@ fua:superProject
     rdfs:label       "Übergeordnetes Projekt"@de ;
     rdfs:domain      [ rdf:type    owl:Class ;
                        owl:unionOf ( fua:SubProject ) ; ] ;
+    # 0..1
     rdfs:range       fua:Project ;
     rdfs:isDefinedBy fua: ;
 .
 
 # endregion Project
-
 
 ## region EXAMPLE
 

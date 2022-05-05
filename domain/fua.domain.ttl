@@ -22,25 +22,26 @@ domain:
     dct:publisher                 <https://www.nicos-rd.com/> ;
     vann:preferredNamespaceUri    "https://www.nicos-rd.com.org/fua/domain#" ;
     vann:preferredNamespacePrefix "domain" ;
-    rdfs:isDefinedBy              domain: ;
+    rdfs:isDefinedBy              fua: ;
 .
 
 domain:Domain
     a                owl:Class ;
     rdfs:subClassOf  ldp:BasicContainer ;
+    # TODO : rdfs:subCassOf fua:Subject ;
 #TODO : isAbstract
     rdfs:label       "Domain"@en ;
     dct:description  """Domain of given Eco System."""@en ;
-    rdfs:isDefinedBy domain: ;
+    rdfs:isDefinedBy fua: ;
 .
 
 domain:domain
     a                owl:ObjectProperty ;
     rdfs:label       "Domain"@en ;
 #    rdfs:domain      ecm:Ecosystem ;
-## c"1"
+# "1..1"
     rdfs:range       domain:Domain ;
-    rdfs:isDefinedBy domain: ;
+    rdfs:isDefinedBy fua: ;
 .
 
 #region authentication
@@ -53,7 +54,7 @@ domain:UserBasicAuthentication
 ## domain:name     ""^^xsd:string ;
 ## domain:password ""^^xsd:string ;
     skos:broader     <domain:User> ;
-    rdfs:isDefinedBy domain: ;
+    rdfs:isDefinedBy fua: ;
 .
 #endregion authentication
 
@@ -66,7 +67,7 @@ domain:name
     rdfs:domain      [ rdf:type    owl:Class ;
                        owl:unionOf ( <domain:User> <domain:Credential> ) ] ;
     rdfs:range       xsd:string ;
-    rdfs:isDefinedBy domain: ;
+    rdfs:isDefinedBy fua: ;
 .
 
 domain:active
@@ -77,10 +78,10 @@ domain:active
     rdfs:domain      [ rdf:type    owl:Class ;
                        owl:unionOf ( <domain:User> <domain:Credential> ) ] ;
     rdfs:range       xsd:boolean ; ## REM: default = false
-    rdfs:isDefinedBy domain: ;
+    rdfs:isDefinedBy fua: ;
 .
 
-## TODO: secret
+## TODO: 'domain:password' >>> 'fua:secret'
 domain:password
     a                owl:DatatypeProperty ;
     rdfs:label       "Passwort"@en ;
@@ -89,7 +90,7 @@ domain:password
     rdfs:domain      [ rdf:type    owl:Class ;
                        owl:unionOf ( <domain:User> <domain:Credential> ) ] ;
     rdfs:range       xsd:string ; ## REM: hashed?!?
-    rdfs:isDefinedBy domain: ;
+    rdfs:isDefinedBy fua: ;
 .
 
 #region user
@@ -101,7 +102,7 @@ domain:User
     rdfs:label       "User"@en ;
     dct:description  """User class of 'domain:Domain'."""@en ;
     skos:narrower    <domain:UserBasicAuthentication> ;
-    rdfs:isDefinedBy domain: ;
+    rdfs:isDefinedBy fua: ;
 .
 
 domain:agent
@@ -110,17 +111,17 @@ domain:agent
     dct:description  """Agent of given domain:User."""@en ;
     rdfs:domain      domain:User ;
     rdfs:range       foaf:Agent ;
-    rdfs:isDefinedBy domain: ;
+    rdfs:isDefinedBy fua: ;
 .
 
 domain:Users
     a                owl:Class ;
 #    rdfs:subClassOf  ldp:BasicContainer ;
-    rdfs:subClassOf  ldp:Resource  ;
+    rdfs:subClassOf  ldp:Resource ;
     rdfs:label       "Users"@en ;
     rdfs:label       "Benutzer"@de ;
 #    rdfs:comment     ""@en ;
-    rdfs:isDefinedBy domain: ;
+    rdfs:isDefinedBy fua: ;
 .
 
 ## TODO: axxounta
@@ -130,7 +131,7 @@ domain:user
     dct:description  """Reference of all users of of type 'domain:User' of given 'domain:Domain'."""@en ;
     rdfs:domain      domain:Domain ;
     rdfs:range       domain:User ;
-    rdfs:isDefinedBy domain: ;
+    rdfs:isDefinedBy fua: ;
 .
 #endregion user
 
@@ -142,7 +143,7 @@ domain:Group
     rdfs:label       "Group"@en ;
     rdfs:label       "Gruppe"@de ;
     dct:description  """Group class of 'domain:Domain'."""@en ;
-    rdfs:isDefinedBy domain: ;
+    rdfs:isDefinedBy fua: ;
 .
 
 domain:Groups
@@ -151,7 +152,7 @@ domain:Groups
     rdfs:label       "Groups"@en ;
     rdfs:label       "Gruppen"@de ;
     dct:description  """Typically it resides underneath <./domain/> with <./domain/groups/>."""@en ;
-    rdfs:isDefinedBy domain: ;
+    rdfs:isDefinedBy fua: ;
 .
 
 domain:group
@@ -160,64 +161,43 @@ domain:group
     dct:description  """Reference of all groups of type 'domain:Group' of given 'domain:Domain'."""@en ;
     rdfs:domain      domain:Domain ;
     rdfs:range       domain:Group ;
-    rdfs:isDefinedBy domain: ;
+    rdfs:isDefinedBy fua: ;
 .
 ##endregion group
 
 ##region credential
 
 
-##region trust
-domain:Trust
+domain:Credential
     a                owl:Class ;
     rdfs:subClassOf  ldp:Resource ;
 #TODO: isAbstract
-    rdfs:label       "Trust"@en ;
-    rdfs:label       "Vertrauensstellung"@de ;
+    rdfs:label       "Credential"@en ;
+    rdfs:label       "Berechtigung"@de ;
     dct:description  """Credential class of credentials."""@en ;
-    skos:narrower    <domain:CredentialBasicAuthentication> ;
+    skos:narrower    domain:CredentialBasicAuthentication ;
 ## TODO : rdfs:seeAlso     <> ;
-    rdfs:isDefinedBy domain: ;
+    rdfs:isDefinedBy fua: ;
 .
 
-domain:trust
+domain:credentials
     a                owl:ObjectProperty ;
-    rdfs:label       "trust"^^xsd:string ;
-    dct:description  """Reference of all credentials of type 'domain:Trust' of given 'domain:Domain'."""@en ;
+    rdfs:label       "credentials"^^xsd:string ;
+#    dct:description  """"""@en ;
     rdfs:domain      domain:Domain ;
-    rdfs:range       domain:Trust ;
-    rdfs:isDefinedBy domain: ;
-.
-
-domain:Trusts
-    a                owl:Class ;
-    rdfs:subClassOf  ldp:BasicContainer ;
-    rdfs:label       "Trusts"@en ;
-    rdfs:label       "Vertrauenstellungen"@de ;
-    dct:description  """Typically it resides underneath <./domain/> with <./domain/trusts/>."""@en ;
-    rdfs:isDefinedBy domain: ;
-.
-
-##endregion trust
-
-##region credential
-
-domain:Credentials
-    a                owl:Class ;
-    rdfs:subClassOf  ldp:BasicContainer ;
-    rdfs:label       "Credentials"@en ;
-    rdfs:label       "Berechtigungen"@de ;
-    dct:description  """Typically it resides underneath <./domain/> with <./domain/credentials/>."""@en ;
-    rdfs:isDefinedBy domain: ;
+    # 0..n
+    rdfs:range       domain:Credential ;
+    rdfs:isDefinedBy fua: ;
 .
 
 domain:credential
     a                owl:ObjectProperty ;
-    rdfs:label       "credentials"^^xsd:string ;
+    rdfs:label       "credential"^^xsd:string ;
     dct:description  """Reference of all credentials of type 'domain:Credential' of given 'domain:Domain'."""@en ;
-    rdfs:domain      foaf:Agent ;
+#    rdfs:domain      foaf:Agent ;
+    # 0..n
     rdfs:range       domain:Credential ;
-    rdfs:isDefinedBy domain: ;
+    rdfs:isDefinedBy fua: ;
 .
 
 domain:CredentialBasicAuthentication
@@ -227,19 +207,7 @@ domain:CredentialBasicAuthentication
     rdfs:label       "Credential 'Basic Authentication'"^^xsd:string ;
     dct:description  """Credential class for Basic Authentication."""@en ;
     rdfs:seeAlso     <https://en.wikipedia.org/wiki/Basic_access_authentication> ;
-    rdfs:isDefinedBy domain: ;
-.
-
-domain:Credential
-    a                owl:Class ;
-    rdfs:subClassOf  ldp:Resource ;
-#TODO: isAbstract
-    rdfs:label       "Credential"@en ;
-    rdfs:label       "Berechtigung"@de ;
-    dct:description  """Credential class of credentials."""@en ;
-    skos:narrower    <domain:CredentialBasicAuthentication> ;
-## TODO : rdfs:seeAlso     <> ;
-    rdfs:isDefinedBy domain: ;
+    rdfs:isDefinedBy fua: ;
 .
 
 domain:valid
@@ -248,14 +216,15 @@ domain:valid
     rdfs:label       "valide"@de ;
     dct:description  """Time-interval given Credential is working."""@en ;
     rdfs:domain      [ rdf:type    owl:Class ;
-                       owl:unionOf ( <domain:Credential> ) ] ;
+                       owl:unionOf ( domain:Credential ) ] ;
     rdfs:range       time:Interval ;
+    # TODO : OR :: rdfs:range       time:TemporalEntity ??? ;
 # EXAMPLE
 #    domain:valid     [ a                 time:ProperInterval ;
 #                       time:hasBeginning "2021-07-16T19:20:30Z"^^xsd:dateTimeStamp ;
 ##                       time:hasXSDDuration  "P1Y2M"^^xsd:duration ;
 #                       time:hasEnd       "2022-09-16T19:20:30Z"^^xsd:dateTimeStamp ; ] ;
-    rdfs:isDefinedBy domain: ;
+    rdfs:isDefinedBy fua: ;
 .
 
 domain:remoteDomain
@@ -264,9 +233,9 @@ domain:remoteDomain
     rdfs:label       "Entfernte Domäne"@de ;
     dct:description  """Endpoint to call remote domain to perform a login."""@en ;
     rdfs:domain      [ rdf:type    owl:Class ;
-                       owl:unionOf ( <domain:Credential> ) ] ;
+                       owl:unionOf ( domain:Credential ) ] ;
     rdfs:range       xsd:string ;
-    rdfs:isDefinedBy domain: ;
+    rdfs:isDefinedBy fua: ;
 .
 
 domain:token
@@ -274,11 +243,58 @@ domain:token
     rdfs:label       "token"@en ;
     dct:description  """Token to use for given domain."""@en ;
     rdfs:domain      [ rdf:type    owl:Class ;
-                       owl:unionOf ( <domain:Credential> ) ] ;
+                       owl:unionOf ( domain:Credential ) ] ;
     rdfs:range       xsd:string ;
-    rdfs:isDefinedBy domain: ;
+    rdfs:isDefinedBy fua: ;
 .
 
 ##endregion credential
+
+##region trust
+domain:PositionOfTrust
+    a                owl:Class ;
+    rdfs:subClassOf  ldp:Resource ;
+#TODO: isAbstract
+    rdfs:label       "Position of Trust"@en ;
+    rdfs:label       "Vertrauensstellung"@de ;
+#    dct:description  """."""@en ;
+## TODO : rdfs:seeAlso     <> ;
+    # REM : uses :: domain:credential
+    rdfs:isDefinedBy fua: ;
+.
+
+domain:positionOfTrust
+    a                owl:ObjectProperty ;
+    rdfs:label       "Position of Trust"@en ;
+    rdfs:label       "Vertrauensstellung"@de ;
+#    dct:description  """"""@en ;
+    rdfs:domain      domain:Domain ;
+    # 0..n
+    rdfs:range       domain:PositionOfTrust ;
+    rdfs:isDefinedBy fua: ;
+.
+
+domain:trustedDomain
+    a                owl:ObjectProperty ;
+    rdfs:label       "Trusted Domain"@en ;
+    rdfs:label       "Vertraute Domäne"@de ;
+#    dct:description  """"""@en ;
+    rdfs:domain      domain:PositionOfTrust ;
+    # 0..n
+    rdfs:range       domain:Domain ;
+    rdfs:isDefinedBy fua: ;
+.
+
+domain:Trusts
+    a                owl:Class ;
+    rdfs:subClassOf  ldp:BasicContainer ;
+    rdfs:label       "Trusts"@en ;
+    rdfs:label       "Vertrauensstellungen"@de ;
+    dct:description  """Typically it resides underneath <./domain/> with <./domain/trusts/>."""@en ;
+    rdfs:comment     """contains 'fua:PositionOfTrust'."""@en ;
+    rdfs:isDefinedBy fua: ;
+.
+
+##endregion trust
 
 ## EOF domain
