@@ -9,7 +9,7 @@
 
 @prefix nrd:                                                                                    <https://www.nicos-rd.com/> .
 ## this
-@prefix fua:                                                                                    <https://www.nicos-rd.com.org/fua#> .
+@prefix fua:                                                                                    <https://www.nicos-rd.com/fua#> .
 
 fua:Employee
     a                owl:Class ;

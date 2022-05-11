@@ -17,7 +17,7 @@
 @prefix xsd:                                                                                    <http://www.w3.org/2001/XMLSchema#> .
 
 @prefix nrd:                                                                                    <https://www.nicos-rd.com/> .
-@prefix fua:                                                                                    <https://www.nicos-rd.com.org/fua#> .
+@prefix fua:                                                                                    <https://www.nicos-rd.com/fua#> .
 @prefix elevator:                                                                               <https://www.nicos-rd.com/fua/elevator#> .
 
 elevator:

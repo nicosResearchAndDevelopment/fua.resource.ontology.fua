@@ -14,7 +14,7 @@
 
 @prefix nrd:                                                                                    <https://www.nicos-rd.com/> .
 
-@prefix fua:                                                                                    <https://www.nicos-rd.com.org/fua#> .
+@prefix fua:                                                                                    <https://www.nicos-rd.com/fua#> .
 
 
 fua:EventEmitter

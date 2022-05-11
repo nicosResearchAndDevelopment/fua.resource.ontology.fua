@@ -11,16 +11,16 @@
 @prefix voaf:    <http://purl.org/vocommons/voaf#> .
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
 
-@prefix fua:     <https://www.nicos-rd.com.org/fua#> .
+@prefix fua:     <https://www.nicos-rd.com/fua#> .
 ## this
-@prefix domain:  <https://www.nicos-rd.com.org/fua/domain#> .
+@prefix domain:  <https://www.nicos-rd.com/fua/domain#> .
 
 domain:
     a                             owl:Ontology ;
     owl:versionInfo               "0.0.1" ;
     dct:creator                   <https://github.com/jlangkau> ;
     dct:publisher                 <https://www.nicos-rd.com/> ;
-    vann:preferredNamespaceUri    "https://www.nicos-rd.com.org/fua/domain#" ;
+    vann:preferredNamespaceUri    "https://www.nicos-rd.com/fua/domain#" ;
     vann:preferredNamespacePrefix "domain" ;
     rdfs:isDefinedBy              fua: ;
 .

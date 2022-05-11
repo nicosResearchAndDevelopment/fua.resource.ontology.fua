@@ -8,7 +8,7 @@
 @prefix voaf:    <http://purl.org/vocommons/voaf#> .
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
 
-@prefix fua:     <https://www.nicos-rd.com.org/fua#> .
+@prefix fua:     <https://www.nicos-rd.com/fua#> .
 
 fua:Person
     a                owl:Class ;
