@@ -1,0 +1,369 @@
+@prefix dct:                                                                                    <http://purl.org/dc/terms/> .
+@prefix fno:                                                                                    <https://w3id.org/function/ontology#> .
+@prefix foaf:                                                                                   <http://xmlns.com/foaf/0.1/> .
+@prefix odrl:                                                                                   <http://www.w3.org/ns/odrl/2/> .
+@prefix org:                                                                                    <http://www.w3.org/ns/org#> .
+@prefix owl:                                                                                    <http://www.w3.org/2002/07/owl#> .
+@prefix qudt:                                                                                   <http://qudt.org/schema/qudt/> .
+@prefix rdf:                                                                                    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:                                                                                   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh:                                                                                     <http://www.w3.org/ns/shacl#> .
+@prefix skos:                                                                                   <http://www.w3.org/2004/02/skos/core#> .
+@prefix time:                                                                                   <http://www.w3.org/2006/time#>.
+@prefix unit:                                                                                   <http://qudt.org/vocab/unit/> .
+@prefix vann:                                                                                   <http://purl.org/vocab/vann/> .
+@prefix voaf:                                                                                   <http://purl.org/vocommons/voaf#> .
+@prefix void:                                                                                   <http://rdfs.org/ns/void#> .
+@prefix xsd:                                                                                    <http://www.w3.org/2001/XMLSchema#> .
+
+@prefix nrd:                                                                                    <https://www.nicos-rd.com/> .
+@prefix fua:                                                                                    <https://www.nicos-rd.com.org/fua#> .
+
+@prefix dave:                                                                                   <https://www.nicos-rd.com/fua/dataverse#> .
+
+dave:
+    a                             voaf:Vocabulary ;
+    a                             owl:Ontology ;
+    skos:prefLabel                "DataVerseModel"^^xsd:string ;
+    rdfs:label                    "DataVerse Model"@en ;
+    dct:title                     "DataVerse-Model for Data Spaces"@en ;
+    dct:description               """The 'DataVerse-Model for Data Spaces' aims to organize joint or disjoint Data Spaces. It does not cover data-modelling of data transported on applications-layer (transported by 'data-provider' and 'data-consumer') in given and "living, productive" eco-system, exchanging real-word data.
+The 'DataVerse-Model' has a strong focus on 'The Organization Ontology', W3C, to be enriched with all those."""@en ;
+## TODO : cc:license                    <http://www.apache.org/licenses/LICENSE-2.0> ;
+    dct:creator                   <https://github.com/jlangkau> ;
+    dct:creator                   <https://jlangkau.solidweb.org/> ;
+    dct:publisher                 <http://www.nicos-rd.com/> ;
+    dct:created                   "2021-11-29"^^xsd:date ;
+    dct:modified                  "2022-05-12"^^xsd:date ; ## REM : replaced by assembly
+    owl:versionInfo               "0.0.2" ;
+    vann:preferredNamespaceUri    "https://www.nicos-rd.com/fua/dataverse#" ;
+    vann:preferredNamespacePrefix "dave:" ;
+    void:vocabulary               vann:, void:, voaf:, dct: ;
+    void:vocabulary               org: ;
+    void:vocabulary               fua: ;
+    rdfs:comment                  """The 'DataVerse-Model for Data Spaces' does not aim to cover well-known ontologies, like "Friend of a Friend" ('foaf') or "The Organization Ontology" ('org'). Expressing sub-classes only tries to enrich given parent classes.
+The 'DataVerse-Model for Data Spaces' defines classes and properties for describing and organising Data Spaces."""@en ;
+    rdfs:seeAlso                  "https://www.w3.org/TR/vocab-org/" ; ## TODO : check it
+    rdfs:isDefinedBy              nrd: ;
+. # dave:
+
+
+dave:DataVerse
+    a                owl:Class ;
+    skos:notation    "DataVerse"^^xsd:string ;
+    skos:prefLabel   "DataVerse Class"^^xsd:string ;
+    rdfs:label       "Class of DataVerses"@en ;
+    rdfs:label       "Klasse der DataVerses"@de ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+dave:acronym
+    a                  owl:DatatypeProperty ;
+    rdfs:subPropertyOf skos:notation ;
+    skos:notation      "acronym"^^xsd:string ;
+    skos:prefLabel     "Acronym"^^xsd:string ;
+    dct:description    """Due to the nature of 'skos:notation' it MUST be unique among all acronyms in 'dave:'."""@en ;
+    rdfs:label         "Acronym"@en ;
+    rdfs:label         "Akronym"@de ;
+    rdfs:range         xsd:string ;
+    rdfs:isDefinedBy   nrd: ;
+.
+
+##region Eco System
+
+dave:EcoSystem
+    a                owl:Class ;
+    rdfs:subClassOf  org:OrganizationalCollaboration ;
+    skos:notation    "EcoSystem"^^xsd:string ;
+    skos:prefLabel   "Eco-System Class"^^xsd:string ;
+    rdfs:label       "Class of Eco-Systems"@en ;
+    rdfs:label       "Klasse der Eco-Systems"@de ;
+    ## region property
+    # 0..n
+    # REM : there can be an Eco-System _without_ containing any Data Space.
+    # dave:ecoSystem [ a dave:EcoSystem ];
+    # 0..n
+    # REM : containing all (known) Data Spaces - even if an individual has NO Eco-System declared.
+    # dave:dataSpace [ a dave:DataSpace ];
+    ## endregion property
+    rdfs:isDefinedBy nrd: ;
+.
+
+dave:ecoSystem
+    a                owl:ObjectProperty ;
+    skos:notation    "ecoSystem"^^xsd:string ;
+    skos:prefLabel   "Eco-System Property"^^xsd:string ;
+    rdfs:label       "Eco-System"@en ;
+    rdfs:label       "Eco-System"@de ;
+    dct:description  """Arbitrary property to bind a given Eco-System."""@en ;
+    rdfs:domain      dave:DataVerse ;
+    rdfs:domain      dave:DataSpace ;
+    rdfs:range       dave:EcoSystem ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+##endregion Eco System
+
+##region Data Domain
+dave:DataDomain
+    a                owl:Class ;
+    rdfs:subClassOf  org:OrganizationalCollaboration ;
+    skos:notation    "DataDomain"^^xsd:string ;
+    skos:prefLabel   "Data Domain Class"^^xsd:string ;
+    dave:acronym     "DD"^^xsd:string ;
+    rdfs:label       "Class of Data Domains"@en ;
+    rdfs:label       "Klasse der Datendomänen"@de ;
+    ## region property
+    # 0..1
+    # REM : the Eco System responsible bringing Data Actors to life.
+    # dave:ecoSystem [ a dave:EcoSystem ];
+    ## endregion property
+    rdfs:isDefinedBy fua: ;
+.
+
+dave:DataSpace
+    a                owl:Class ;
+    rdfs:subClassOf  dave:DataDomain ;
+    skos:notation    "DataSpace"^^xsd:string ;
+    skos:prefLabel   "Data Space Class"^^xsd:string ;
+    dave:acronym     "DS"^^xsd:string ;
+    rdfs:label       "Class of Data Spaces"@en ;
+    rdfs:label       "Klasse der Datenräume"@de ;
+    owl:sameAs       dave:DataDomain ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+dave:dataDomain
+    a                owl:ObjectProperty ;
+    skos:notation    "dataDomain"^^xsd:string ;
+    skos:prefLabel   "Data Domain Property"^^xsd:string ;
+    rdfs:label       "Data Domain"@en ;
+    rdfs:label       "Datendomäne"@de ;
+    dct:description  """Arbitrary property to bind a given Data Domain."""@en ;
+    rdfs:domain      dave:DataVerse ;
+    rdfs:domain      dave:EcoSystem ;
+    # 0..1
+    rdfs:range       ( dave:DataDomain dave:DataSpace ) ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+##endregion Data Domain
+
+dave:Authority
+    ## REM : abstract?!?
+    a                owl:Class ;
+    rdfs:subClassOf  foaf:Agent ;
+    skos:notation    "Authority"^^xsd:string ;
+    skos:prefLabel   "Authority Class"^^xsd:string ;
+    rdfs:label       "Class of Authorities"@en ;
+    rdfs:label       "Klasse der Autoritäten"@de ;
+    dct:description  """Instances of this class will express overarching responsibility for given Data Space."""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+dave:TrustBody
+    a                owl:Class ;
+    rdfs:subClassOf  dave:Authority ;
+    skos:notation    "TrustBody"^^xsd:string ;
+    skos:prefLabel   "Trust Body Class"^^xsd:string ;
+    rdfs:label       "Class of Trust Bodies"@en ;
+    rdfs:label       "Klasse der Vertrauensstellen"@de ;
+    dct:description  """The agent (organization or maybe a person) producing the base of trust."""@en ;
+    rdfs:comment     """One of the most known type might be the 'Certification Body', like 'dave:CertificationBody'."""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+dave:CertificationBody
+    a                owl:Class ;
+    rdfs:subClassOf  dave:TrustBody ;
+    skos:notation    "CertificationBody"^^xsd:string ;
+    skos:prefLabel   "Certification Body Class"^^xsd:string ;
+    dave:acronym     "CB"^^xsd:string ;
+    rdfs:label       "Class of Certification Bodies"@en ;
+    rdfs:label       "Klasse der Zertifizierungsstellen"@de ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+dave:CertificateAuthority
+    a                owl:Class ;
+    rdfs:subClassOf  dave:TrustBody ;
+    skos:notation    "CertificateAuthority"^^xsd:string ;
+    skos:prefLabel   "Certification Authority Class"^^xsd:string ;
+    dave:acronym     "CA"^^xsd:string ;
+    rdfs:label       "Class of Certificate Authorities"@en ;
+    rdfs:label       "Klasse der 'Certificate Authorities'"@de ;
+    rdfs:comment     """Certificate Authority handles the good, ol' X.509 certificates."""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+dave:IdentityProvider
+    a                owl:Class ;
+    skos:notation    "IdentityProvider"^^xsd:string ;
+    skos:prefLabel   "Identity Provider Class"^^xsd:string ;
+    rdfs:label       "Class of Identity Providers"@en ;
+    rdfs:label       "Klasse der Identity Providers"@de ;
+#    dct:description  """."""@en ;
+#    rdfs:comment     """."""@en ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+dave:ServiceModel
+    # REM : abstract
+    a                owl:Class ;
+    rdfs:subClassOf  foaf:Agent ;
+    skos:notation    "ServiceModel"^^xsd:string ;
+    skos:prefLabel   "Service Model Class"^^xsd:string ;
+    rdfs:label       "Class of Service Models"@en ;
+    rdfs:label       "Klasse der Service-Modelle"@de ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+dave:serviceModel
+    a                owl:ObjectProperty ;
+    skos:notation    "serviceModel"^^xsd:string ;
+    skos:prefLabel   "Service Model"^^xsd:string ;
+    rdfs:label       "Service Model"@en ;
+    rdfs:label       "Servicemodell"@de ;
+    rdfs:domain      dave:ServiceInstance ;
+    # 0..1
+    rdfs:range       dave:ServiceModel ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+dave:ServiceInstance
+    # REM : abstract
+    a                owl:Class ;
+    rdfs:subClassOf  foaf:Agent ;
+    skos:notation    "ServiceInstance"^^xsd:string ;
+    skos:prefLabel   "Service Instance Class"^^xsd:string ;
+    rdfs:label       "Class of Service Instances"@en ;
+    rdfs:label       "Klasse der Serviceinstanzen"@de ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+## region Data Actor Role
+
+dave:DataActorRole
+    # REM : abstract
+    a                owl:Class ;
+    rdfs:subClassOf  org:Role ;
+    skos:notation    "DataActorRole"^^xsd:string ;
+    skos:prefLabel   "Data Actor Class"^^xsd:string ;
+    rdfs:label       "Class of Actor Roles on Data"@en ;
+    rdfs:label       "Klasse der Aktorenrollen auf Daten"@de ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+dave:dataActorRole
+    a                owl:ObjectProperty ;
+    skos:notation    "dataActorRole"^^xsd:string ;
+    skos:prefLabel   "Data Actor Role"^^xsd:string ;
+    rdfs:label       "'Data Actor' Role"@en ;
+    rdfs:label       "'Data Actor' Rolle"@de ;
+    rdfs:domain      dave:ServiceInstance ;
+    # 0..1
+    rdfs:range       dave:DataActorRole ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+## region Data Actor Role Individuals
+
+dave:CONSUMER
+    a                dave:DataActorRole ;
+    skos:notation    "CONSUMER"^^xsd:string ;
+    skos:prefLabel   "Actor Role as Data Consumer"^^xsd:string ;
+    rdfs:label       "Actor Role 'Data Consumer'"@en ;
+    rdfs:label       "Actor Rolle 'Datenkonsument'"@de ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+dave:PROVIDER
+    a                dave:DataActorRole ;
+    skos:notation    "PROVIDER"^^xsd:string ;
+    skos:prefLabel   "Actor Role as Data Provider"^^xsd:string ;
+    rdfs:label       "Actor Role 'Data Provider'"@en ;
+    rdfs:label       "Actor Rolle 'Datenbereitsteller'"@de ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+## endregion Data Actor Role Individuals
+
+## region Data Actor Role
+
+## region Data Layer
+
+dave:DataLayer
+    # REM : abstract
+    a                owl:Class ;
+    skos:notation    "DataLayer"^^xsd:string ;
+    skos:prefLabel   "Data Layer Class"^^xsd:string ;
+    rdfs:label       "Class of Data Layers"@en ;
+    rdfs:label       "Klasse der Datenschichten"@de ;
+    rdfs:comment     """If we like to say so, we can extend the OSI-Model the way adding layer on top of layer 7 (application layer)."""@en ;
+    rdfs:seeAlso     <https://en.wikipedia.org/wiki/OSI_model> ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+dave:dataLayer
+    a                owl:ObjectProperty ;
+    skos:notation    "dataLayer"^^xsd:string ;
+    skos:prefLabel   "Data Layer"^^xsd:string ;
+    rdfs:label       "Data Layer"@en ;
+    rdfs:label       "Data Layer"@de ;
+    rdfs:domain      dave:ServiceInstance ;
+    # 1..2                                      # REM : "Yes", it can be hybrid!
+    rdfs:range       dave:DataLayer ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+dave:dataLayerNumericPosition
+    a                owl:DatatypeProperty ;
+    skos:notation    "dataLayerNumericPosition"^^xsd:string ;
+    skos:prefLabel   "Data Layer Numeric Position"^^xsd:string ;
+    rdfs:label       "Data Layer Numeric Position"@en ;
+    rdfs:label       "Data Layer numerische Position"@de ;
+    rdfs:domain      dave:DataLayer ;
+    # 0..1, '8' <= value <= '9'
+    rdfs:range       xsd:nonNegativeInteger ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+## region Data Layer Individuals
+
+dave:dataLayer_INFRASTRUCTURE
+    a                             dave:DataLayer ;
+    skos:notation                 "dataLayer_INFRASTRUCTURE"^^xsd:string ;
+    dave:dataLayerNumericPosition "8"^^xsd:nonNegativeInteger ;
+    skos:prefLabel                "Data Layer 'Infrastructure'"^^xsd:string ;
+    rdfs:label                    "Data Layer 'Infrastructure'"@en ;
+    rdfs:label                    "Data Layer 'Infrastruktur'"@de ;
+    dct:description               """All information transported on this Layer, are described by given Eco-System
+regarding its schema or model."""@en ;
+    rdfs:comment                  """EXAMPLE: given identity-requester (a 'dave:ServiceInstance' with
+role 'dave:dataActor_CONSUMER') requests [ a ex:request_token "it_is_me"^^xsd:string . ] data and
+identity-provider-service (a 'dave:ServiceInstance' with role 'dave:dataActor_PROVIDER') responses
+[ a ex:token "it_is_you!"^^xsd:string . ] will be transported on the data-layer 'dave:dataLayer_INFRASTRUCTURE'."""@en ;
+    rdfs:isDefinedBy              nrd: ;
+.
+
+dave:dataLayer_PRODUCTIVE
+    a                             dave:DataLayer ;
+    skos:notation                 "dataLayer_PRODUCTIVE"^^xsd:string ;
+    dave:dataLayerNumericPosition "9"^^xsd:nonNegativeInteger ;
+    skos:prefLabel                "Data Layer 'Productive'"^^xsd:string ;
+    rdfs:label                    "Data Layer 'Productive'"@en ;
+    rdfs:label                    "Daten Layer 'Produktiv'"@de ;
+    dct:description               """All information transported on this Layer, are described by given use case-specific
+vocabulary, schema, model."""@en ;
+    rdfs:comment                  """EXAMPLE: given data-consumer (a 'dave:ServiceInstance' with
+role 'dave:dataActor_CONSUMER') requests [ a ex:command "greet_me"^^xsd:string . ] data and
+data-provider (a 'dave:ServiceInstance' with role 'dave:dataActor_PROVIDER') responses
+[ a ex:result "Hello World!"^^xsd:string . ] will be transported on the data-layer 'dave:dataLayer_PRODUCTIVE'."""@en ;
+    rdfs:isDefinedBy              nrd: ;
+.
+
+## endregion Data Layer Individuals
+
+## endregion DataLayer
+
+## EOF

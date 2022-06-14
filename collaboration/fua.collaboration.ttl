@@ -195,15 +195,30 @@ fua:projectOwner
 
 fua:subProject
 # 0..n
-    a                owl:ObjectProperty ;
-    skos:notation    "subProject"^^xsd:string ;
-    rdfs:label       "Subproject"@en ;
-    rdfs:label       "Teilprojekt"@de ;
-    rdfs:domain      [ rdf:type    owl:Class ;
-                       owl:unionOf ( fua:Project fua:SubProject ) ; ] ;
+    a                  owl:ObjectProperty ;
+    rdfs:subPropertyOf org:hasUnit ;
+    skos:notation      "subProject"^^xsd:string ;
+    rdfs:label         "Subproject"@en ;
+    rdfs:label         "Teilprojekt"@de ;
+    rdfs:domain        [ rdf:type    owl:Class ;
+                         owl:unionOf ( fua:Project fua:SubProject ) ; ] ;
     # 0..n
-    rdfs:range       fua:SubProject ;
-    rdfs:isDefinedBy fua: ;
+    rdfs:range         fua:SubProject ;
+    rdfs:isDefinedBy   fua: ;
+.
+
+fua:subProjectOf
+# 0..n
+    a                  owl:ObjectProperty ;
+    rdfs:subPropertyOf org:unitOf ;
+    skos:notation      "subProjectOf"^^xsd:string ;
+    rdfs:label         "Sub-Project of"@en ;
+    rdfs:label         "Teilprojekt von"@de ;
+    rdfs:domain        [ rdf:type    owl:Class ;
+                         owl:unionOf ( fua:SubProject ) ; ] ;
+    # 0..n
+    rdfs:range         fua:Project, fua:SubProject ;
+    rdfs:isDefinedBy   fua: ;
 .
 
 fua:superProject

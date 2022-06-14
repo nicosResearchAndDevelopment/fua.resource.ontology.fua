@@ -11,28 +11,14 @@
 @prefix void:                                                                                   <http://rdfs.org/ns/void#> .
 @prefix xsd:                                                                                    <http://www.w3.org/2001/XMLSchema#> .
 
-#@prefix nrd:                                                                                    <https://www.nicos-rd.com/> .
-
 @prefix fua:                                                                                    <https://www.nicos-rd.com.org/fua#> .
-
-fua:
-    a                             owl:Ontology ;
-    owl:versionInfo               "0.0.1" ;
-    dct:creator                   <https://github.com/jlangkau> ;
-    dct:publisher                 <https://www.nicos-rd.com/> ;
-    vann:preferredNamespaceUri    "https://www.nicos-rd.com.org/fua#" ;
-    vann:preferredNamespacePrefix "fua" ;
-## TODO: "void:vocabulary" to be clarified!
-    void:vocabulary               dct:, foaf:, org:, owl:, rdf:, rdfs:, vann:, void:, voaf:, xsd: ;
-    rdfs:isDefinedBy              fua: ;
-.
 
 fua:timestamp
     a                owl:DatatypeProperty ;
     skos:notation    "timestamp"^^xsd:string ;
     rdfs:label       "Timestamp"@en ;
     rdfs:label       "Zeitstempel"@de ;
-    rdfs:range       xsd:dateTimeStamp ;
+    rdfs:range       xsd:dateTimeStamp  ;
     rdfs:isDefinedBy fua: ;
 .
 
@@ -107,12 +93,6 @@ fua:position
 # REM: list
     rdfs:range       fua:Position ;
     rdfs:isDefinedBy fua: ;
-.
-
-fua:
-    owl:imports <./collaboration/fua.collaboration.ttl> ;
-    owl:imports <./person/fua.person.ttl> ;
-    owl:imports <./person/fua.employee.ttl> ;
 .
 
 ## EOF fua.ttl

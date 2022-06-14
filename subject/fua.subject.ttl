@@ -3,6 +3,7 @@
 @prefix ldp:                                                                                    <http://www.w3.org/ns/ldp#> .
 @prefix org:                                                                                    <http://www.w3.org/ns/org#> .
 @prefix owl:                                                                                    <http://www.w3.org/2002/07/owl#> .
+@prefix qudt:                                                                                   <http://qudt.org/schema/qudt/Unit> .
 @prefix rdf:                                                                                    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs:                                                                                   <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos:                                                                                   <http://www.w3.org/2004/02/skos/core#> .
@@ -12,67 +13,55 @@
 @prefix void:                                                                                   <http://rdfs.org/ns/void#> .
 @prefix xsd:                                                                                    <http://www.w3.org/2001/XMLSchema#> .
 
-@prefix nrd:                                                                                    <https://www.nicos-rd.com/> .
-
 @prefix fua:                                                                                    <https://www.nicos-rd.com.org/fua#> .
 
-
-fua:EventEmitter
+fua:Subject
+    ## REM : abstract
     a                owl:Class ;
-#    rdfs:subClassOf  ldp:BasicContainer ;
-    skos:notation    "EventEmitter"^^xsd:string ;
-    rdfs:label       "Event Emitter"@en ;
-    rdfs:isDefinedBy nrd: ;
-.
-
-fua:Subject ## abstract
-    a                owl:Class ;
-    rdfs:subClassOf  fua:EventEmitter ;
-#    rdfs:subClassOf  ldp:BasicContainer ;
     skos:notation    "Subject"^^xsd:string ;
     rdfs:label       "Subject"@en ;
-    rdfs:isDefinedBy nrd: ;
+    rdfs:label       "Subjekt"@de ;
+    rdfs:isDefinedBy fua: ;
 .
 
-fua:Property # REM : abstract
+fua:Property
+    # REM : abstract
     a                owl:Class ;
-    rdfs:subClassOf  fua:EventEmitter ;
-#    rdfs:subClassOf  ldp:Resource ;
+#    rdfs:subClassOf  fua:EventEmitter ;
     skos:notation    "Property"^^xsd:string ;
     rdfs:label       "Property"@en ;
-    rdfs:isDefinedBy nrd: ;
+    rdfs:label       "Eigenschaft"@de ;
+    rdfs:isDefinedBy fua: ;
 .
 
 fua:DatatypeProperty
     a                owl:Class ;
     rdfs:subClassOf  fua:Property ;
-#    rdfs:subClassOf  ldp:Resource ;
     skos:notation    "DatatypeProperty"^^xsd:string ;
     rdfs:label       "Datatype Property"@en ;
-    fua:valueType    owl:DatatypeProperty ;
-    rdfs:isDefinedBy nrd: ;
+    rdfs:label       "Datentyp Eigenschaft"@de ;
+    rdfs:isDefinedBy fua: ;
 .
 
 fua:ObjectProperty
     a                owl:Class ;
     rdfs:subClassOf  fua:Property ;
-#    rdfs:subClassOf  ldp:Resource ;
     skos:notation    "ObjectProperty"^^xsd:string ;
     rdfs:label       "Object Property"@en ;
-    fua:valueType    owl:ObjectProperty ;
-    rdfs:isDefinedBy nrd: ;
+    rdfs:label       "Objekttyp Eigenschaft"@de ;
+    rdfs:isDefinedBy fua: ;
 .
 
-## TODO : wäre fua:Subject ein ldp:Container, könnte dann vielleicht contains genommen werden?
 fua:property
     a                owl:ObjectProperty ;
     skos:notation    "property"^^xsd:string ;
     rdfs:label       "Property"@en ;
-    dct:description  """All properties of given Subject."""@en ;
+    rdfs:label       "Eigenschaft"@de ;
+    dct:description  """Containing all properties of given Subject."""@en ;
     rdfs:domain      fua:Subject ;
     rdfs:range       fua:DatatypeProperty ;
     rdfs:range       fua:ObjectProperty ;
-    rdfs:isDefinedBy nrd: ;
+    rdfs:isDefinedBy fua: ;
 .
 
 fua:serverTimestamp
@@ -80,10 +69,11 @@ fua:serverTimestamp
     rdfs:subPropertyOf fua:timestamp ;
     skos:notation      "serverTimestamp"^^xsd:string ;
     rdfs:label         "Server Timestamp"@en ;
+    rdfs:label         "Server Zeitstempel"@de ;
     rdfs:domain        fua:Subject ;
     rdfs:domain        fua:Property ;
     rdfs:range         xsd:dateTimeStamp ;
-    rdfs:isDefinedBy   nrd: ;
+    rdfs:isDefinedBy   fua: ;
 .
 
 fua:sourceTimestamp
@@ -91,28 +81,21 @@ fua:sourceTimestamp
     rdfs:subPropertyOf fua:timestamp ;
     skos:notation      "sourceTimestamp"^^xsd:string ;
     rdfs:label         "Source Timestamp"@en ;
+    rdfs:label         "Zeitstempel des Ursprungs"@de ;
     rdfs:domain        fua:Subject ;
     rdfs:domain        fua:Property ;
     rdfs:range         xsd:dateTimeStamp ;
-    rdfs:isDefinedBy   nrd: ;
+    rdfs:isDefinedBy   fua: ;
 .
 
-fua:valueType
-    a                owl:ObjectProperty ;
-    skos:notation    "valueType"^^xsd:string ;
-    rdfs:label       "Value Type"@en ;
-    rdfs:domain      fua:Property ;
-    rdfs:range       rdf:Property ;
-    rdfs:isDefinedBy nrd: ;
-.
-
-fua:value
+fua:unit
     a                rdf:Property ;
-    skos:notation    "value"^^xsd:string ;
-    rdfs:label       "Value"@en ;
+    skos:notation    "unit"^^xsd:string ;
+    rdfs:label       "Unit"@en ;
+    rdfs:label       "Einheit"@de ;
     rdfs:domain      fua:Property ;
-    rdfs:range       rdfs:Resource ;
-    rdfs:isDefinedBy nrd: ;
+    rdfs:range       qudt:Unit ;
+    rdfs:isDefinedBy fua: ;
 .
 
 ## EOF fua.subject.ttl

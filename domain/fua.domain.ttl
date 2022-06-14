@@ -29,6 +29,7 @@ domain:Domain
     a                owl:Class ;
     rdfs:subClassOf  ldp:BasicContainer ;
     # TODO : rdfs:subCassOf fua:Subject ;
+    skos:notation    "Domain"^^xsd:string ;
 #TODO : isAbstract
     rdfs:label       "Domain"@en ;
     dct:description  """Domain of given Eco System."""@en ;
@@ -38,6 +39,7 @@ domain:Domain
 domain:domain
     a                owl:ObjectProperty ;
     rdfs:label       "Domain"@en ;
+    skos:notation    "domain"^^xsd:string ;
 #    rdfs:domain      ecm:Ecosystem ;
 # "1..1"
     rdfs:range       domain:Domain ;
@@ -49,11 +51,12 @@ domain:UserBasicAuthentication
     a                owl:Class ;
     rdfs:subClassOf  domain:User ;
     rdfs:subClassOf  ldp:Resource ;
+    skos:notation    "UserBasicAuthentication"^^xsd:string ;
     rdfs:label       "Basic Authentication"@en ;
     dct:description  """Basic Authentication class of 'domain:Domain'."""@en ;
 ## domain:name     ""^^xsd:string ;
 ## domain:password ""^^xsd:string ;
-    skos:broader     <domain:User> ;
+    skos:broader     domain:User ;
     rdfs:isDefinedBy fua: ;
 .
 #endregion authentication
@@ -61,22 +64,24 @@ domain:UserBasicAuthentication
 ## DEPRECATED: <domain:name> ?!?!?!?
 domain:name
     a                owl:DatatypeProperty ;
+    skos:notation    "domainName"^^xsd:string ;
     rdfs:label       "Name"@en ;
     rdfs:label       "Name"@de ;
     dct:description  """Name of given domain:Credential."""@en ;
     rdfs:domain      [ rdf:type    owl:Class ;
-                       owl:unionOf ( <domain:User> <domain:Credential> ) ] ;
+                       owl:unionOf ( domain:User domain:Credential ) ] ;
     rdfs:range       xsd:string ;
     rdfs:isDefinedBy fua: ;
 .
 
 domain:active
     a                owl:DatatypeProperty ;
+    skos:notation    "domainActive"^^xsd:string ;
     rdfs:label       "active"@en ;
     rdfs:label       "aktiv"@de ;
     dct:description  """Show, if given User is active in given Domain."""@en ;
     rdfs:domain      [ rdf:type    owl:Class ;
-                       owl:unionOf ( <domain:User> <domain:Credential> ) ] ;
+                       owl:unionOf ( domain:User domain:Credential ) ] ;
     rdfs:range       xsd:boolean ; ## REM: default = false
     rdfs:isDefinedBy fua: ;
 .
@@ -84,11 +89,12 @@ domain:active
 ## TODO: 'domain:password' >>> 'fua:secret'
 domain:password
     a                owl:DatatypeProperty ;
+    skos:notation    "secret"^^xsd:string ;
     rdfs:label       "Passwort"@en ;
     rdfs:label       "Kennwort"@de ;
     dct:description  """Password of given domain:Credential."""@en ;
     rdfs:domain      [ rdf:type    owl:Class ;
-                       owl:unionOf ( <domain:User> <domain:Credential> ) ] ;
+                       owl:unionOf ( domain:User domain:Credential ) ] ;
     rdfs:range       xsd:string ; ## REM: hashed?!?
     rdfs:isDefinedBy fua: ;
 .
@@ -97,18 +103,20 @@ domain:password
 
 domain:User
     a                owl:Class ;
+    skos:notation    "User"^^xsd:string ;
     rdfs:subClassOf  ldp:Resource ;
     rdfs:subClassOf  foaf:Agent ;
     rdfs:label       "User"@en ;
     dct:description  """User class of 'domain:Domain'."""@en ;
-    skos:narrower    <domain:UserBasicAuthentication> ;
+    skos:narrower    domain:UserBasicAuthentication ;
     rdfs:isDefinedBy fua: ;
 .
 
 domain:agent
     a                owl:ObjectProperty ;
+    skos:notation    "agent"^^xsd:string ;
     rdfs:label       "Agent"@en ;
-    dct:description  """Agent of given domain:User."""@en ;
+    dct:description  """Agent (as a sort of 'owner') of given 'domain:User'."""@en ;
     rdfs:domain      domain:User ;
     rdfs:range       foaf:Agent ;
     rdfs:isDefinedBy fua: ;
@@ -116,6 +124,7 @@ domain:agent
 
 domain:Users
     a                owl:Class ;
+    skos:notation    "agent"^^xsd:string ;
 #    rdfs:subClassOf  ldp:BasicContainer ;
     rdfs:subClassOf  ldp:Resource ;
     rdfs:label       "Users"@en ;
@@ -180,20 +189,10 @@ domain:Credential
     rdfs:isDefinedBy fua: ;
 .
 
-domain:credentials
-    a                owl:ObjectProperty ;
-    rdfs:label       "credentials"^^xsd:string ;
-#    dct:description  """"""@en ;
-    rdfs:domain      domain:Domain ;
-    # 0..n
-    rdfs:range       domain:Credential ;
-    rdfs:isDefinedBy fua: ;
-.
-
 domain:credential
     a                owl:ObjectProperty ;
-    rdfs:label       "credential"^^xsd:string ;
-    dct:description  """Reference of all credentials of type 'domain:Credential' of given 'domain:Domain'."""@en ;
+    rdfs:label       "Credential"^^xsd:string ;
+    dct:description  """Reference credential of type 'domain:Credential' of given 'domain:Domain'."""@en ;
 #    rdfs:domain      foaf:Agent ;
     # 0..n
     rdfs:range       domain:Credential ;
@@ -217,7 +216,7 @@ domain:valid
     dct:description  """Time-interval given Credential is working."""@en ;
     rdfs:domain      [ rdf:type    owl:Class ;
                        owl:unionOf ( domain:Credential ) ] ;
-    rdfs:range       time:Interval ;
+    rdfs:range       time:ProperInterval ;
     # TODO : OR :: rdfs:range       time:TemporalEntity ??? ;
 # EXAMPLE
 #    domain:valid     [ a                 time:ProperInterval ;
@@ -234,7 +233,7 @@ domain:remoteDomain
     dct:description  """Endpoint to call remote domain to perform a login."""@en ;
     rdfs:domain      [ rdf:type    owl:Class ;
                        owl:unionOf ( domain:Credential ) ] ;
-    rdfs:range       xsd:string ;
+    rdfs:range       xsd:anyURI ;
     rdfs:isDefinedBy fua: ;
 .
 
