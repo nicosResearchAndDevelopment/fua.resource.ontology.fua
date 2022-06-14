@@ -10,9 +10,9 @@
 @prefix voaf:                                                                                   <http://purl.org/vocommons/voaf#> .
 @prefix xsd:                                                                                    <http://www.w3.org/2001/XMLSchema#> .
 
-#@prefix fuam: <https://www.nicos-rd.com.org/fuam#> .
+#@prefix fuam: <https://www.nicos-rd.com/fuam#> .
 ## this
-@prefix fua:                                                                                    <https://www.nicos-rd.com.org/fua#> .
+@prefix fua:                                                                                    <https://www.nicos-rd.com/fua#> .
 
 fua:Collaboration
     a                owl:Class ;
