@@ -57,6 +57,17 @@ dave:DataVerse
     rdfs:isDefinedBy nrd: ;
 .
 
+dave:dataVerse
+    a                owl:ObjectProperty ;
+    skos:notation    "dataVerse"^^xsd:string ;
+    skos:prefLabel   "DataVerse"^^xsd:string ;
+    rdfs:label       "DataVerse"@en ;
+    rdfs:label       "DataVerse"@de ;
+    dct:description  """Arbitrary property to bind a given DataVerse."""@en ;
+    rdfs:range       dave:DataVerse ;
+    rdfs:isDefinedBy nrd: ;
+.
+
 dave:acronym
     a                  owl:DatatypeProperty ;
     rdfs:subPropertyOf skos:notation ;
@@ -161,12 +172,12 @@ dave:Authority
     rdfs:isDefinedBy nrd: ;
 .
 
-dave:TrustBody
+dave:TrustAuthority
     a                owl:Class ;
     rdfs:subClassOf  dave:Authority ;
-    skos:notation    "TrustBody"^^xsd:string ;
-    skos:prefLabel   "Trust Body Class"^^xsd:string ;
-    rdfs:label       "Class of Trust Bodies"@en ;
+    skos:notation    "TrustAuthority"^^xsd:string ;
+    skos:prefLabel   "Trust Authority Class"^^xsd:string ;
+    rdfs:label       "Class of Trust Authorities"@en ;
     rdfs:label       "Klasse der Vertrauensstellen"@de ;
     dct:description  """The agent (organization or maybe a person) producing the base of trust."""@en ;
     rdfs:comment     """One of the most known type might be the 'Certification Body', like 'dave:CertificationBody'."""@en ;
@@ -175,7 +186,7 @@ dave:TrustBody
 
 dave:CertificationBody
     a                owl:Class ;
-    rdfs:subClassOf  dave:TrustBody ;
+    rdfs:subClassOf  dave:TrustAuthority ;
     skos:notation    "CertificationBody"^^xsd:string ;
     skos:prefLabel   "Certification Body Class"^^xsd:string ;
     dave:acronym     "CB"^^xsd:string ;
@@ -186,7 +197,7 @@ dave:CertificationBody
 
 dave:CertificateAuthority
     a                owl:Class ;
-    rdfs:subClassOf  dave:TrustBody ;
+    rdfs:subClassOf  dave:TrustAuthority ;
     skos:notation    "CertificateAuthority"^^xsd:string ;
     skos:prefLabel   "Certification Authority Class"^^xsd:string ;
     dave:acronym     "CA"^^xsd:string ;
@@ -268,18 +279,27 @@ dave:dataActorRole
 
 ## region Data Actor Role Individuals
 
-dave:CONSUMER
+dave:UNSPECIFIC
     a                dave:DataActorRole ;
-    skos:notation    "CONSUMER"^^xsd:string ;
+    skos:notation    "UNSPECIFIC"^^xsd:string ;
+    skos:prefLabel   "Actor Role is not specified"^^xsd:string ;
+    rdfs:label       "Actor Role 'NOT sepecified'"@en ;
+    rdfs:label       "Actor Rolle 'NOT spezifiziert'"@de ;
+    rdfs:isDefinedBy nrd: ;
+.
+
+dave:DATA_CONSUMER
+    a                dave:DataActorRole ;
+    skos:notation    "DATA_CONSUMER"^^xsd:string ;
     skos:prefLabel   "Actor Role as Data Consumer"^^xsd:string ;
     rdfs:label       "Actor Role 'Data Consumer'"@en ;
     rdfs:label       "Actor Rolle 'Datenkonsument'"@de ;
     rdfs:isDefinedBy nrd: ;
 .
 
-dave:PROVIDER
+dave:DATA_PROVIDER
     a                dave:DataActorRole ;
-    skos:notation    "PROVIDER"^^xsd:string ;
+    skos:notation    "DATA_PROVIDER"^^xsd:string ;
     skos:prefLabel   "Actor Role as Data Provider"^^xsd:string ;
     rdfs:label       "Actor Role 'Data Provider'"@en ;
     rdfs:label       "Actor Rolle 'Datenbereitsteller'"@de ;
@@ -288,7 +308,7 @@ dave:PROVIDER
 
 ## endregion Data Actor Role Individuals
 
-## region Data Actor Role
+## endregion Data Actor Role
 
 ## region Data Layer
 
