@@ -126,7 +126,7 @@ dave:DataDomain
     rdfs:label       "Klasse der Datendomänen"@de ;
     ## region property
     # 0..1
-    # REM : the Eco System responsible bringing Data Actors to life.
+    # REM : the Eco System responsible bringing Data Agents to life.
     # dave:ecoSystem [ a dave:EcoSystem ];
     ## endregion property
     rdfs:isDefinedBy fua: ;
@@ -248,67 +248,67 @@ dave:ServiceInstance
     skos:notation    "ServiceInstance"^^xsd:string ;
     skos:prefLabel   "Service Instance Class"^^xsd:string ;
     rdfs:label       "Class of Service Instances"@en ;
-    rdfs:label       "Klasse der Serviceinstanzen"@de ;
+    rdfs:label       "Klasse der Service-Instanzen"@de ;
     rdfs:isDefinedBy nrd: ;
 .
 
-## region Data Actor Role
+## region Data Agent Role
 
-dave:DataActorRole
+dave:DataAgentRole
     # REM : abstract
     a                owl:Class ;
     rdfs:subClassOf  org:Role ;
-    skos:notation    "DataActorRole"^^xsd:string ;
-    skos:prefLabel   "Data Actor Class"^^xsd:string ;
-    rdfs:label       "Class of Actor Roles on Data"@en ;
-    rdfs:label       "Klasse der Aktorenrollen auf Daten"@de ;
+    skos:notation    "DataAgentRole"^^xsd:string ;
+    skos:prefLabel   "Data Agent Class"^^xsd:string ;
+    rdfs:label       "Class of Agent Roles on Data"@en ;
+    rdfs:label       "Klasse der Agenten-Rollen auf Daten"@de ;
     rdfs:isDefinedBy nrd: ;
 .
 
-dave:dataActorRole
+dave:dataAgentRole
     a                owl:ObjectProperty ;
-    skos:notation    "dataActorRole"^^xsd:string ;
-    skos:prefLabel   "Data Actor Role"^^xsd:string ;
-    rdfs:label       "'Data Actor' Role"@en ;
-    rdfs:label       "'Data Actor' Rolle"@de ;
+    skos:notation    "dataAgentRole"^^xsd:string ;
+    skos:prefLabel   "Data Agent Role"^^xsd:string ;
+    rdfs:label       "'Data Agent' Role"@en ;
+    rdfs:label       "'Data Agent' Rolle"@de ;
     rdfs:domain      dave:ServiceInstance ;
     # 0..1
-    rdfs:range       dave:DataActorRole ;
+    rdfs:range       dave:DataAgentRole ;
     rdfs:isDefinedBy nrd: ;
 .
 
-## region Data Actor Role Individuals
+## region Data Agent Role Individuals
 
 dave:UNSPECIFIC
-    a                dave:DataActorRole ;
+    a                dave:DataAgentRole ;
     skos:notation    "UNSPECIFIC"^^xsd:string ;
-    skos:prefLabel   "Actor Role is not specified"^^xsd:string ;
-    rdfs:label       "Actor Role 'NOT sepecified'"@en ;
-    rdfs:label       "Actor Rolle 'NOT spezifiziert'"@de ;
+    skos:prefLabel   "Agent Role is not specified"^^xsd:string ;
+    rdfs:label       "Agent Role 'NOT sepecified'"@en ;
+    rdfs:label       "Agent Rolle 'NOT spezifiziert'"@de ;
     rdfs:isDefinedBy nrd: ;
 .
 
 dave:DATA_CONSUMER
-    a                dave:DataActorRole ;
+    a                dave:DataAgentRole ;
     skos:notation    "DATA_CONSUMER"^^xsd:string ;
-    skos:prefLabel   "Actor Role as Data Consumer"^^xsd:string ;
-    rdfs:label       "Actor Role 'Data Consumer'"@en ;
-    rdfs:label       "Actor Rolle 'Datenkonsument'"@de ;
+    skos:prefLabel   "Agent Role as Data Consumer"^^xsd:string ;
+    rdfs:label       "Agent Role 'Data Consumer'"@en ;
+    rdfs:label       "Agent Rolle 'Datenkonsument'"@de ;
     rdfs:isDefinedBy nrd: ;
 .
 
 dave:DATA_PROVIDER
-    a                dave:DataActorRole ;
+    a                dave:DataAgentRole ;
     skos:notation    "DATA_PROVIDER"^^xsd:string ;
-    skos:prefLabel   "Actor Role as Data Provider"^^xsd:string ;
-    rdfs:label       "Actor Role 'Data Provider'"@en ;
-    rdfs:label       "Actor Rolle 'Datenbereitsteller'"@de ;
+    skos:prefLabel   "Agent Role as Data Provider"^^xsd:string ;
+    rdfs:label       "Agent Role 'Data Provider'"@en ;
+    rdfs:label       "Agent Rolle 'Datenbereitsteller'"@de ;
     rdfs:isDefinedBy nrd: ;
 .
 
-## endregion Data Actor Role Individuals
+## endregion Data Agent Role Individuals
 
-## endregion Data Actor Role
+## endregion Data Agent Role
 
 ## region Data Layer
 
@@ -350,6 +350,18 @@ dave:dataLayerNumericPosition
 
 ## region Data Layer Individuals
 
+dave:dataLayer_META
+    a                             dave:DataLayer ;
+    skos:notation                 "dataLayer_META"^^xsd:string ;
+    dave:dataLayerNumericPosition "8"^^xsd:nonNegativeInteger ;
+    skos:prefLabel                "Data Layer 'Meta'"^^xsd:string ;
+    rdfs:label                    "Data Layer 'Meta'"@en ;
+    rdfs:label                    "Data Layer 'Meta'"@de ;
+    dct:description               """All information transported on this Layer, are by a Meta-Model."""@en ;
+    rdfs:comment                  """EXAMPLE: http-header 'Content-Length'."""@en ;
+    rdfs:isDefinedBy              nrd: ;
+.
+
 dave:dataLayer_INFRASTRUCTURE
     a                             dave:DataLayer ;
     skos:notation                 "dataLayer_INFRASTRUCTURE"^^xsd:string ;
@@ -358,27 +370,30 @@ dave:dataLayer_INFRASTRUCTURE
     rdfs:label                    "Data Layer 'Infrastructure'"@en ;
     rdfs:label                    "Data Layer 'Infrastruktur'"@de ;
     dct:description               """All information transported on this Layer, are described by given Eco-System
-regarding its schema or model."""@en ;
+regarding its schema or model. This classification of data targets to all those operations, etc. those are crucial
+for given agent, to act in ones Eco System."""@en ;
     rdfs:comment                  """EXAMPLE: given identity-requester (a 'dave:ServiceInstance' with
-role 'dave:dataActor_CONSUMER') requests [ a ex:request_token "it_is_me"^^xsd:string . ] data and
-identity-provider-service (a 'dave:ServiceInstance' with role 'dave:dataActor_PROVIDER') responses
+role 'dave:dataAgent_CONSUMER') requests [ a ex:request_token "it_is_me"^^xsd:string . ] data and
+identity-provider-service (a 'dave:ServiceInstance' with role 'dave:dataAgent_PROVIDER') responses
 [ a ex:token "it_is_you!"^^xsd:string . ] will be transported on the data-layer 'dave:dataLayer_INFRASTRUCTURE'."""@en ;
     rdfs:isDefinedBy              nrd: ;
 .
 
-dave:dataLayer_PRODUCTIVE
+dave:dataLayer_MAIN
     a                             dave:DataLayer ;
-    skos:notation                 "dataLayer_PRODUCTIVE"^^xsd:string ;
+    skos:notation                 "dataLayer_MAIN"^^xsd:string ;
     dave:dataLayerNumericPosition "9"^^xsd:nonNegativeInteger ;
-    skos:prefLabel                "Data Layer 'Productive'"^^xsd:string ;
-    rdfs:label                    "Data Layer 'Productive'"@en ;
-    rdfs:label                    "Daten Layer 'Produktiv'"@de ;
+    skos:prefLabel                "Data Layer 'Main'"^^xsd:string ;
+    rdfs:label                    "Data Layer 'Main'"@en ;
+    rdfs:label                    "Daten Layer 'Main'"@de ;
     dct:description               """All information transported on this Layer, are described by given use case-specific
 vocabulary, schema, model."""@en ;
-    rdfs:comment                  """EXAMPLE: given data-consumer (a 'dave:ServiceInstance' with
-role 'dave:dataActor_CONSUMER') requests [ a ex:command "greet_me"^^xsd:string . ] data and
-data-provider (a 'dave:ServiceInstance' with role 'dave:dataActor_PROVIDER') responses
-[ a ex:result "Hello World!"^^xsd:string . ] will be transported on the data-layer 'dave:dataLayer_PRODUCTIVE'."""@en ;
+    rdfs:comment                  """REM: What is 'main' lies in the agents eye! Sometimes given agent focus on
+meta-data only and classifies it as being 'main' - from its perspective...
+EXAMPLE: given data-consumer (a 'dave:ServiceInstance' with role 'dave:dataAgent_CONSUMER')
+requests [ a ex:command "greet_me"^^xsd:string . ] data and data-provider (a 'dave:ServiceInstance' with role
+'dave:dataAgent_PROVIDER') responses [ a ex:result "Hello World!"^^xsd:string . ] will be transported on the
+data-layer 'dave:dataLayer_PRODUCTIVE'."""@en ;
     rdfs:isDefinedBy              nrd: ;
 .
 
@@ -386,4 +401,4 @@ data-provider (a 'dave:ServiceInstance' with role 'dave:dataActor_PROVIDER') res
 
 ## endregion DataLayer
 
-## EOF
+## EOF fua.dataverse.ttl
