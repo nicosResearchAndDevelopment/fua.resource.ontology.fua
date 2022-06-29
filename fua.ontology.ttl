@@ -31,13 +31,13 @@ fua:
 .
 
 fua:
-    owl:imports <./core/fua.core.ttl> ;
+    owl:imports <file:./core/fua.core.ttl> ;
     ## REM : order ALPHA
     #
-    owl:imports <./collaboration/fua.collaboration.ttl> ;
+    owl:imports <file:./collaboration/fua.collaboration.ttl> ;
     #
-    owl:imports <./person/fua.employee.ttl> ;
-    owl:imports <./person/fua.person.ttl> ;
+    owl:imports <file:./person/fua.employee.ttl> ;
+    owl:imports <file:./person/fua.person.ttl> ;
 .
 
 ## EOF fua.ttl
