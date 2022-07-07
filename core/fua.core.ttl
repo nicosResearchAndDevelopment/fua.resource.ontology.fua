@@ -11,7 +11,7 @@
 @prefix void:                                                                                   <http://rdfs.org/ns/void#> .
 @prefix xsd:                                                                                    <http://www.w3.org/2001/XMLSchema#> .
 
-@prefix fua:                                                                                    <https://www.nicos-rd.com.org/fua#> .
+@prefix fua:                                                                                    <https://www.nicos-rd.com/fua#> .
 
 fua:timestamp
     a                owl:DatatypeProperty ;
