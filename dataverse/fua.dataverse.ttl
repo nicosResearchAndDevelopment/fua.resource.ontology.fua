@@ -21,6 +21,8 @@
 
 @prefix nrd:   <https://www.nicos-rd.com/> .
 @prefix fua:   <https://www.nicos-rd.com.org/fua#> .
+@prefix nrd:                                                                                    <https://www.nicos-rd.com/> .
+@prefix fua:                                                                                    <https://www.nicos-rd.com/fua#> .
 
 @prefix dave:  <https://www.nicos-rd.com/fua/dataverse#> .
 
@@ -140,6 +142,7 @@ dave:Domain
 
 dave:DataSpace
     a                owl:Class ;
+    rdfs:subClassOf  dave:DataDomain ;
     skos:notation    "DataSpace"^^xsd:string ;
     skos:prefLabel   "Data Space Class"^^xsd:string ;
     dave:acronym     "DS"^^xsd:string ;
