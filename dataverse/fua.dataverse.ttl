@@ -21,8 +21,7 @@
 
 @prefix nrd:   <https://www.nicos-rd.com/> .
 @prefix fua:   <https://www.nicos-rd.com.org/fua#> .
-@prefix nrd:                                                                                    <https://www.nicos-rd.com/> .
-@prefix fua:                                                                                    <https://www.nicos-rd.com/fua#> .
+@prefix gbx:   <https://www.nicos-rd.com/fua/gaiabox#> .
 
 @prefix dave:  <https://www.nicos-rd.com/fua/dataverse#> .
 
@@ -55,6 +54,8 @@ The 'DataVerse-Model for Data Spaces' defines classes and properties for describ
 
 dave:DataVerse
     a                owl:Class ;
+    ## TBC: a fua:Narration ;
+    a                gbx:GAIAboX ; ## REM: owl:Thing, foaf:Agent
     rdfs:subClassOf  foaf:Agent ;
     rdfs:subClassOf  dave:EcoSystem ;
     skos:notation    "DataVerse"^^xsd:string ;
@@ -72,8 +73,7 @@ dave:dataVerse
     rdfs:label       "DataVerse"@de ;
     dct:description  """Arbitrary property to bind a given DataVerse."""@en ;
     rdfs:range       dave:DataVerse ;
-    rdfs:isDefinedBy nrd: ;
-.
+    rdfs:isDefinedBy dave: .
 
 dave:acronym
     a                  owl:DatatypeProperty ;
@@ -84,8 +84,7 @@ dave:acronym
     rdfs:label         "Acronym"@en ;
     rdfs:label         "Akronym"@de ;
     rdfs:range         xsd:string ;
-    rdfs:isDefinedBy   nrd: ;
-.
+    rdfs:isDefinedBy   dave: .
 
 ## region Eco System
 
@@ -104,8 +103,7 @@ dave:EcoSystem
     # REM : containing all (known) Data Spaces - even if an individual has NO Eco-System declared.
     # dave:dataSpace [ a dave:DataSpace ];
     ## endregion property
-    rdfs:isDefinedBy nrd: ;
-.
+    rdfs:isDefinedBy dave: .
 
 dave:ecoSystem
     a                owl:ObjectProperty ;
@@ -117,8 +115,7 @@ dave:ecoSystem
     rdfs:domain      dave:DataVerse ;
     rdfs:domain      dave:DataSpace ;
     rdfs:range       dave:EcoSystem ;
-    rdfs:isDefinedBy nrd: ;
-.
+    rdfs:isDefinedBy dave: .
 
 ## endregion Eco System
 
@@ -137,20 +134,17 @@ dave:Domain
     # REM : the Eco System responsible bringing Data Agents to life.
     # dave:ecoSystem [ a dave:EcoSystem ];
     ## endregion property
-    rdfs:isDefinedBy fua: ;
-.
+    rdfs:isDefinedBy dave: .
 
 dave:DataSpace
     a                owl:Class ;
-    rdfs:subClassOf  dave:DataDomain ;
     skos:notation    "DataSpace"^^xsd:string ;
     skos:prefLabel   "Data Space Class"^^xsd:string ;
     dave:acronym     "DS"^^xsd:string ;
     rdfs:label       "Class of Data Spaces"@en ;
     rdfs:label       "Klasse der Datenräume"@de ;
     owl:sameAs       dave:DataDomain ;
-    rdfs:isDefinedBy nrd: ;
-.
+    rdfs:isDefinedBy dave: .
 
 dave:domain ## TODO : switch to domain
     a                owl:ObjectProperty ;
@@ -163,8 +157,7 @@ dave:domain ## TODO : switch to domain
     rdfs:domain      dave:EcoSystem ;
     # 0..1
     rdfs:range       ( dave:DataDomain dave:DataSpace ) ;
-    rdfs:isDefinedBy nrd: ;
-.
+    rdfs:isDefinedBy dave: .
 
 ## endregion Domain
 
@@ -177,8 +170,7 @@ dave:Authority
     rdfs:label       "Class of Authorities"@en ;
     rdfs:label       "Klasse der Autoritäten"@de ;
     dct:description  """Instances of this class will express overarching responsibility for given Data Space."""@en ;
-    rdfs:isDefinedBy nrd: ;
-.
+    rdfs:isDefinedBy dave: .
 
 dave:TrustAuthority
     a                owl:Class ;
@@ -189,8 +181,7 @@ dave:TrustAuthority
     rdfs:label       "Klasse der Vertrauensstellen"@de ;
     dct:description  """The agent (organization or maybe a person) producing the base of trust."""@en ;
     rdfs:comment     """One of the most known type might be the 'Certification Body', like 'dave:CertificationBody'."""@en ;
-    rdfs:isDefinedBy nrd: ;
-.
+    rdfs:isDefinedBy dave: .
 
 dave:Notarization
     a                owl:Class ;
@@ -200,15 +191,13 @@ dave:Notarization
     dave:acronym     "NOTA"^^xsd:string ;
     rdfs:label       "Class of Notarizations"@en ;
     rdfs:label       "Klasse der 'Notarizations'"@de ;
-    rdfs:isDefinedBy nrd: ;
-.
+    rdfs:isDefinedBy dave: .
 
 dave:CertificationBody
     a                owl:Class ;
     rdfs:subClassOf  dave:Notarization ;
     owl:sameAs       dave:Notarization ;
-    rdfs:isDefinedBy nrd: ;
-.
+    rdfs:isDefinedBy dave: .
 
 dave:CertificateAuthority
     a                owl:Class ;
@@ -219,8 +208,7 @@ dave:CertificateAuthority
     rdfs:label       "Class of Certificate Authorities"@en ;
     rdfs:label       "Klasse der 'Certificate Authorities'"@de ;
     rdfs:comment     """Certificate Authority handles the good, ol' X.509 certificates."""@en ;
-    rdfs:isDefinedBy nrd: ;
-.
+    rdfs:isDefinedBy dave: .
 
 dave:IdentityProvider
     a                owl:Class ;
@@ -230,8 +218,7 @@ dave:IdentityProvider
     rdfs:label       "Klasse der Identity Providers"@de ;
 #    dct:description  """."""@en ;
     rdfs:comment     """**NOT** as an agent! It does not act itself. The acting agents are 'dave:TrustAuthority', 'CertificationBody'"""@en ;
-    rdfs:isDefinedBy nrd: ;
-.
+    rdfs:isDefinedBy dave: .
 
 ## region Service
 ## region Service :: ServiceModel
@@ -242,8 +229,7 @@ dave:ServiceModel
     skos:prefLabel   "Service Model Class"^^xsd:string ;
     rdfs:label       "Class of Service Models"@en ;
     rdfs:label       "Klasse der Service-Modelle"@de ;
-    rdfs:isDefinedBy nrd: ;
-.
+    rdfs:isDefinedBy dave: .
 
 dave:serviceModel
     a                owl:ObjectProperty ;
@@ -254,8 +240,7 @@ dave:serviceModel
     rdfs:domain      dave:ServiceInstance ;
     # 0..1
     rdfs:range       dave:ServiceModel ;
-    rdfs:isDefinedBy nrd: ;
-.
+    rdfs:isDefinedBy dave: .
 ## endregion Service :: ServiceModel
 
 ## region Service :: ServiceInstance
@@ -267,8 +252,7 @@ dave:ServiceInstance
     skos:prefLabel   "Service Instance Class"^^xsd:string ;
     rdfs:label       "Class of Service Instances"@en ;
     rdfs:label       "Klasse der Service-Instanzen"@de ;
-    rdfs:isDefinedBy nrd: ;
-.
+    rdfs:isDefinedBy dave: .
 
 ## region Service :: ServiceInstance :: ServiceEndpoint
 
@@ -279,8 +263,7 @@ dave:ServiceEndpoint
     skos:prefLabel   "Service Endpoint Class"^^xsd:string ;
     rdfs:label       "Class of Service Endpoints"@en ;
     rdfs:label       "Klasse der Service-Endpunkte"@de ;
-    rdfs:isDefinedBy nrd: ;
-.
+    rdfs:isDefinedBy dave: .
 
 dave:serviceEndpointSchema
     a                owl:ObjectProperty ;
@@ -290,8 +273,7 @@ dave:serviceEndpointSchema
     rdfs:label       "Service Endpunkt 'Schema'"@de ;
     rdfs:domain      dave:ServiceEndpoint ;
     rdfs:range       xsd:string ; ## EXAMPLE: 'http'
-    rdfs:isDefinedBy nrd: ;
-.
+    rdfs:isDefinedBy dave: .
 
 dave:serviceEndpointSecure
     a                owl:ObjectProperty ;
@@ -301,8 +283,7 @@ dave:serviceEndpointSecure
     rdfs:label       "Service Endpunkt 'Secure'"@de ;
     rdfs:domain      dave:ServiceEndpoint ;
     rdfs:range       xsd:boolean ; ## EXAMPLE: 'true'
-    rdfs:isDefinedBy nrd: ;
-.
+    rdfs:isDefinedBy dave: .
 
 dave:serviceEndpointHost
     a                owl:ObjectProperty ;
@@ -312,8 +293,7 @@ dave:serviceEndpointHost
     rdfs:label       "Service Endpunkt 'Host'"@de ;
     rdfs:domain      dave:ServiceEndpoint ;
     rdfs:range       xsd:string ; ## EXAMPLE: '0.0.0.0'
-    rdfs:isDefinedBy nrd: ;
-.
+    rdfs:isDefinedBy dave: .
 
 dave:serviceEndpointPort
     a                owl:ObjectProperty ;
@@ -323,8 +303,7 @@ dave:serviceEndpointPort
     rdfs:label       "Service Endpunkt 'Port'"@de ;
     rdfs:domain      dave:ServiceEndpoint ;
     rdfs:range       xsd:nonNegativeInteger ; ## EXAMPLE: '80'
-    rdfs:isDefinedBy nrd: ;
-.
+    rdfs:isDefinedBy dave: .
 
 dave:serviceEndpointRoot
     a                owl:ObjectProperty ;
@@ -334,8 +313,7 @@ dave:serviceEndpointRoot
     rdfs:label       "Service Endpunkt 'Root'"@de ;
     rdfs:domain      dave:ServiceEndpoint ;
     rdfs:range       xsd:string ; ## EXAMPLE: '/', default = ""
-    rdfs:isDefinedBy nrd: ;
-.
+    rdfs:isDefinedBy dave: .
 
 dave:serviceEndpointCredential
     a                owl:ObjectProperty ;
@@ -347,8 +325,7 @@ dave:serviceEndpointCredential
     ## EXAMPLE: 'rdfs:range' :: '{"user": "me", "secret": "ahoi"}', default = "" (so, undefined)
     ## EXAMPLE: 'rdfs:range' :: "key.ahoi(me).sign", default = "" (so, undefined)
     rdfs:range       xsd:string ;
-    rdfs:isDefinedBy nrd: ;
-.
+    rdfs:isDefinedBy dave: .
 ## endregion Service :: ServiceInstance :: ServiceEndpoint
 
 dave:serviceEndpoint
@@ -359,8 +336,7 @@ dave:serviceEndpoint
     rdfs:label       "Service-Endpunkt"@de ;
     rdfs:domain      dave:ServiceInstance ;
     rdfs:range       dave:ServiceEndpoint ;
-    rdfs:isDefinedBy nrd: ;
-.
+    rdfs:isDefinedBy dave: .
 
 dave:serviceInstance
     a                owl:ObjectProperty ;
@@ -370,8 +346,7 @@ dave:serviceInstance
     rdfs:label       "Serviceinstanz"@de ;
     rdfs:domain      dave:EcoSystem ;
     rdfs:range       dave:ServiceInstance ;
-    rdfs:isDefinedBy nrd: ;
-.
+    rdfs:isDefinedBy dave: .
 
 ## endregion Service :: ServiceInstance
 
@@ -387,8 +362,7 @@ dave:DataAgentRole
     skos:prefLabel   "Data Agent Class"^^xsd:string ;
     rdfs:label       "Class of Agent Roles on Data"@en ;
     rdfs:label       "Klasse der Agenten-Rollen auf Daten"@de ;
-    rdfs:isDefinedBy nrd: ;
-.
+    rdfs:isDefinedBy dave: .
 
 dave:dataAgentRole
     a                owl:ObjectProperty ;
@@ -399,8 +373,7 @@ dave:dataAgentRole
     rdfs:domain      dave:ServiceInstance ;
     # 0..1
     rdfs:range       dave:DataAgentRole ;
-    rdfs:isDefinedBy nrd: ;
-.
+    rdfs:isDefinedBy dave: .
 
 ## region Data Agent Role :: Individuals
 
@@ -410,8 +383,7 @@ dave:UNSPECIFIC
     skos:prefLabel   "Agent Role is not specified"^^xsd:string ;
     rdfs:label       "Agent Role 'NOT sepecified'"@en ;
     rdfs:label       "Agent Rolle 'NOT spezifiziert'"@de ;
-    rdfs:isDefinedBy nrd: ;
-.
+    rdfs:isDefinedBy dave: .
 
 dave:DATA_CONSUMER
     a                dave:DataAgentRole ;
@@ -419,8 +391,7 @@ dave:DATA_CONSUMER
     skos:prefLabel   "Agent Role as Data Consumer"^^xsd:string ;
     rdfs:label       "Agent Role 'Data Consumer'"@en ;
     rdfs:label       "Agent Rolle 'Datenkonsument'"@de ;
-    rdfs:isDefinedBy nrd: ;
-.
+    rdfs:isDefinedBy dave: .
 
 dave:DATA_PROVIDER
     a                dave:DataAgentRole ;
@@ -428,8 +399,7 @@ dave:DATA_PROVIDER
     skos:prefLabel   "Agent Role as Data Provider"^^xsd:string ;
     rdfs:label       "Agent Role 'Data Provider'"@en ;
     rdfs:label       "Agent Rolle 'Datenbereitsteller'"@de ;
-    rdfs:isDefinedBy nrd: ;
-.
+    rdfs:isDefinedBy dave: .
 
 ## endregion Data Agent Role :: Individuals
 
@@ -446,8 +416,7 @@ dave:DataLayer
     rdfs:label       "Klasse der Datenschichten"@de ;
     rdfs:comment     """If we like to say so, we can extend the OSI-Model the way adding layer on top of layer 7 (application layer)."""@en ;
     rdfs:seeAlso     <https://en.wikipedia.org/wiki/OSI_model> ;
-    rdfs:isDefinedBy nrd: ;
-.
+    rdfs:isDefinedBy dave: .
 
 dave:dataLayer
     a                owl:ObjectProperty ;
@@ -458,8 +427,7 @@ dave:dataLayer
     rdfs:domain      dave:ServiceInstance ;
     # 1..2                                      # REM : "Yes", it can be hybrid!
     rdfs:range       dave:DataLayer ;
-    rdfs:isDefinedBy nrd: ;
-.
+    rdfs:isDefinedBy dave: .
 
 dave:dataLayerNumericPosition
     a                owl:DatatypeProperty ;
@@ -470,8 +438,7 @@ dave:dataLayerNumericPosition
     rdfs:domain      dave:DataLayer ;
     # 0..1, '8' <= value <= '9'
     rdfs:range       xsd:nonNegativeInteger ;
-    rdfs:isDefinedBy nrd: ;
-.
+    rdfs:isDefinedBy dave: .
 
 ## region Data Layer Individuals
 
@@ -484,8 +451,7 @@ dave:dataLayer_META
     rdfs:label                    "Data Layer 'Meta'"@de ;
     dct:description               """All information transported on this Layer, are by a Meta-Model."""@en ;
     rdfs:comment                  """EXAMPLE: http-header 'Content-Length'."""@en ;
-    rdfs:isDefinedBy              nrd: ;
-.
+    rdfs:isDefinedBy              dave: .
 
 dave:dataLayer_PERSISTENCE
     a                             dave:DataLayer ;
@@ -496,8 +462,7 @@ dave:dataLayer_PERSISTENCE
     rdfs:label                    "Data Layer 'Persistence'"@de ;
 #    dct:description               """."""@en ;
 #    rdfs:comment                  """."""@en ;
-    rdfs:isDefinedBy              nrd: ;
-.
+    rdfs:isDefinedBy              dave: .
 
 dave:dataLayer_INFRASTRUCTURE
     a                             dave:DataLayer ;
@@ -513,8 +478,7 @@ for given agent, to act in ones Eco System."""@en ;
 role 'dave:dataAgent_CONSUMER') requests [ a ex:request_token "it_is_me"^^xsd:string . ] data and
 identity-provider-service (a 'dave:ServiceInstance' with role 'dave:dataAgent_PROVIDER') responses
 [ a ex:token "it_is_you!"^^xsd:string . ] will be transported on the data-layer 'dave:dataLayer_INFRASTRUCTURE'."""@en ;
-    rdfs:isDefinedBy              nrd: ;
-.
+    rdfs:isDefinedBy              dave: .
 
 dave:dataLayer_MAIN
     a                             dave:DataLayer ;
@@ -531,8 +495,7 @@ EXAMPLE: given data-consumer (a 'dave:ServiceInstance' with role 'dave:dataAgent
 requests [ a ex:command "greet_me"^^xsd:string . ] data and data-provider (a 'dave:ServiceInstance' with role
 'dave:dataAgent_PROVIDER') responses [ a ex:result "Hello World!"^^xsd:string . ] will be transported on the
 data-layer 'dave:dataLayer_PRODUCTIVE'."""@en ;
-    rdfs:isDefinedBy              nrd: ;
-.
+    rdfs:isDefinedBy              dave: .
 
 ## endregion Data Layer Individuals
 
