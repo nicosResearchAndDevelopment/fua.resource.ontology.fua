@@ -1,10 +1,9 @@
-# fua.lib.resource.ontology.fua
+# @nrd/fua.resource.ontology.fua
 
-|      | | |
-|:---  |:---|:---|
-| [fua](./README.md)  | | |
-| fua  | [domain](./domain/README.md) | |
-|      | | |
+|                    |                              |     |
+|:-------------------|:-----------------------------|:----|
+| [fua](./README.md) |                              |     |
+| fua                | [domain](./domain/README.md) |     |
+|                    |                              |     |
 
 ---
-
