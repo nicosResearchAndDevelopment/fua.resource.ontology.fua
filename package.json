@@ -4,10 +4,10 @@
   "description": "",
   "exports": {
     ".": {
-      "require": "./load.ontology.fua.js"
+      "require": "./src/load.js"
     },
     "./core": {
-      "require": "./core/load.core.js"
+      "require": "./src/load.core.js"
     }
   },
   "devDependencies": {
