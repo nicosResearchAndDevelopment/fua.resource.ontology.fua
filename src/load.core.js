@@ -3,7 +3,7 @@ module.exports = {
     'dct:identifier':  __filename,
     'dct:format':      'application/fua.load+js',
     'dct:title':       'load.core',
-    'dct:alternative': '@nrd/fua.resource.ontology.fua/core',
+    'dct:alternative': '@fua/resource.ontology.fua/core',
     'dct:requires':    [{
         'dct:identifier': '../data/core/fua.core.ttl',
         'dct:format':     'text/turtle'

@@ -1,1 +1,1 @@
-# @nrd/fua.resource.ontology.fua/domain
+# @fua/resource.ontology.fua/domain

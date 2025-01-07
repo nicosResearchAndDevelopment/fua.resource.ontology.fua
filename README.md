@@ -1,4 +1,4 @@
-# @nrd/fua.resource.ontology.fua
+# @fua/resource.ontology.fua
 
 |                    |                              |     |
 |:-------------------|:-----------------------------|:----|
